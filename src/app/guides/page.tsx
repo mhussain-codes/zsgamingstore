@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { BookOpen, Clock, Calendar, ArrowRight, User } from "lucide-react";
+import { BookOpen, Clock, Calendar, ArrowRight, Sparkles } from "lucide-react";
 import { useStore } from "@/context/StoreContext";
 
 export default function GuidesListingPage() {
@@ -12,24 +12,25 @@ export default function GuidesListingPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-8 py-10 space-y-10">
       {/* Breadcrumb */}
       <nav className="text-xs text-slate-400 flex items-center gap-2">
-        <Link href="/" className="hover:text-cyan transition-colors">
+        <Link href="/" className="hover:text-yellow-400 transition-colors">
           Home
         </Link>
         <span>/</span>
-        <span className="text-white font-medium">Buying Guides &amp; Tech Articles</span>
+        <span className="text-white font-medium">Hardware Guides &amp; Benchmarks</span>
       </nav>
 
       {/* Header */}
-      <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-graphite-900 via-graphite-850 to-graphite-900 border border-graphite-800 space-y-2">
-        <div className="inline-flex items-center gap-1.5 text-cyan text-xs font-bold uppercase tracking-wider">
+      <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-graphite-900 via-graphite-850 to-graphite-900 border border-graphite-800 space-y-3 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-red-600/10 blur-[100px] pointer-events-none" />
+        <div className="inline-flex items-center gap-2 text-yellow-400 text-xs font-bold uppercase tracking-wider">
           <BookOpen className="w-4 h-4" />
-          <span>Knowledge &amp; Tech Insights</span>
+          <span>Knowledge &amp; Hardware Insights</span>
         </div>
         <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
-          PC Hardware Buying Guides
+          PC Hardware Buying &amp; Optimization Guides
         </h1>
         <p className="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
-          Expert recommendations written by our senior system architects to help Pakistani gamers avoid bottlenecks, balance their budgets in PKR, and select compatible components.
+          Expert recommendations written by our senior system architects to help Pakistani gamers avoid bottlenecks, maximize FPS per Rupee, and select 100% compatible components.
         </p>
       </div>
 
@@ -39,7 +40,7 @@ export default function GuidesListingPage() {
           <Link
             key={guide.id}
             href={`/guides/${guide.slug}`}
-            className="group rounded-2xl bg-graphite-900 border border-graphite-800 hover:border-cyan/40 hover:bg-graphite-850 transition-all duration-300 hover:shadow-card flex flex-col justify-between overflow-hidden"
+            className="group rounded-2xl bg-graphite-900 border border-graphite-800 hover:border-yellow-400/50 hover:bg-graphite-850 transition-all duration-300 hover:shadow-card flex flex-col justify-between overflow-hidden"
           >
             <div className="aspect-video overflow-hidden bg-graphite-950 relative">
               <img
@@ -47,7 +48,7 @@ export default function GuidesListingPage() {
                 alt={guide.title}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
-              <span className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-graphite-950/85 backdrop-blur-md text-[10px] font-bold text-cyan border border-graphite-750">
+              <span className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-graphite-950/85 backdrop-blur-md text-[10px] font-bold text-yellow-400 border border-yellow-400/30">
                 {guide.category}
               </span>
             </div>
@@ -56,15 +57,15 @@ export default function GuidesListingPage() {
               <div className="space-y-2">
                 <div className="flex items-center gap-3 text-[11px] text-slate-400">
                   <span className="flex items-center gap-1">
-                    <Calendar className="w-3 h-3 text-cyan" /> {guide.date}
+                    <Calendar className="w-3 h-3 text-red-500" /> {guide.date}
                   </span>
                   <span>&bull;</span>
                   <span className="flex items-center gap-1">
-                    <Clock className="w-3 h-3 text-cyan" /> {guide.readTime}
+                    <Clock className="w-3 h-3 text-yellow-400" /> {guide.readTime}
                   </span>
                 </div>
 
-                <h3 className="font-bold text-white text-base group-hover:text-cyan transition-colors leading-snug">
+                <h3 className="font-bold text-white text-base group-hover:text-yellow-400 transition-colors leading-snug">
                   {guide.title}
                 </h3>
 
@@ -75,8 +76,8 @@ export default function GuidesListingPage() {
 
               <div className="pt-3 border-t border-graphite-800 flex items-center justify-between text-xs">
                 <span className="text-slate-400 font-medium">By {guide.author.split(",")[0]}</span>
-                <span className="text-cyan font-bold inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                  Read Guide &rarr;
+                <span className="text-yellow-400 font-bold inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                  Read Article &rarr;
                 </span>
               </div>
             </div>

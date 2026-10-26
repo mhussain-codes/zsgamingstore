@@ -12,7 +12,7 @@ export default function ReturnsPage() {
     <div className="max-w-4xl mx-auto px-4 sm:px-8 py-10 space-y-8">
       {/* Breadcrumb */}
       <nav className="text-xs text-slate-400 flex items-center gap-2">
-        <Link href="/" className="hover:text-cyan transition-colors">
+        <Link href="/" className="hover:text-yellow-400 transition-colors">
           Home
         </Link>
         <span>/</span>
@@ -20,10 +20,11 @@ export default function ReturnsPage() {
       </nav>
 
       {/* Header */}
-      <div className="p-8 rounded-3xl bg-gradient-to-r from-graphite-900 via-graphite-850 to-graphite-900 border border-graphite-800 space-y-2">
-        <div className="inline-flex items-center gap-1.5 text-cyan text-xs font-bold uppercase tracking-wider">
-          <RotateCcw className="w-4 h-4" />
-          <span>Customer Assurance</span>
+      <div className="p-8 rounded-3xl bg-gradient-to-r from-graphite-900 via-graphite-850 to-graphite-900 border border-graphite-800 space-y-2 relative overflow-hidden shadow-xl">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-red-600/10 blur-[100px] pointer-events-none" />
+        <div className="inline-flex items-center gap-1.5 text-yellow-400 text-xs font-bold uppercase tracking-wider">
+          <RotateCcw className="w-4 h-4 text-red-500" />
+          <span>Customer Protection &amp; Returns</span>
         </div>
         <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
           Returns &amp; Replacement Policy
@@ -34,16 +35,17 @@ export default function ReturnsPage() {
       </div>
 
       {/* Store Owner Note */}
-      <div className="p-4 rounded-xl bg-graphite-900 border border-amber-500/30 flex items-start gap-3 text-xs text-slate-300">
-        <AlertCircle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+      <div className="p-4 rounded-xl bg-graphite-900 border border-yellow-400/30 flex items-start gap-3 text-xs text-slate-300">
+        <AlertCircle className="w-5 h-5 text-yellow-400 shrink-0 mt-0.5" />
         <div>
-          <strong className="text-white">Store Owner Note:</strong> Starter policy text. The store owner can define specific return windows (e.g. 7 days or 3 days for opened components) in the Admin Panel without modifying code.
+          <strong className="text-white">Customer Satisfaction Guarantee:</strong> We ensure 100% peace of mind with our 48-hour Dead-On-Arrival rapid swap guarantee.
         </div>
       </div>
 
       <div className="space-y-6 text-xs text-slate-300 leading-relaxed">
-        <div className="p-6 rounded-2xl bg-graphite-900 border border-graphite-800 space-y-3">
-          <h2 className="font-bold text-white text-sm uppercase tracking-wider">
+        <div className="p-6 rounded-2xl bg-graphite-900 border border-graphite-800 space-y-3 hover:border-yellow-400/30 transition-colors shadow-md">
+          <h2 className="font-bold text-white text-sm uppercase tracking-wider flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-yellow-400"></span>
             1. Dead-on-Arrival (DOA) 48-Hour Replacement
           </h2>
           <p>
@@ -54,8 +56,9 @@ export default function ReturnsPage() {
           </p>
         </div>
 
-        <div className="p-6 rounded-2xl bg-graphite-900 border border-graphite-800 space-y-3">
-          <h2 className="font-bold text-white text-sm uppercase tracking-wider">
+        <div className="p-6 rounded-2xl bg-graphite-900 border border-graphite-800 space-y-3 hover:border-red-500/30 transition-colors shadow-md">
+          <h2 className="font-bold text-white text-sm uppercase tracking-wider flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-red-600"></span>
             2. Transit Damage Protocol
           </h2>
           <p>
@@ -63,8 +66,9 @@ export default function ReturnsPage() {
           </p>
         </div>
 
-        <div className="p-6 rounded-2xl bg-graphite-900 border border-graphite-800 space-y-3">
-          <h2 className="font-bold text-white text-sm uppercase tracking-wider">
+        <div className="p-6 rounded-2xl bg-graphite-900 border border-graphite-800 space-y-3 hover:border-yellow-400/30 transition-colors shadow-md">
+          <h2 className="font-bold text-white text-sm uppercase tracking-wider flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-yellow-400"></span>
             3. Change of Mind Conditions
           </h2>
           <p>

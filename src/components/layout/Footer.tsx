@@ -21,12 +21,12 @@ export const Footer = () => {
   const { settings, categories } = useStore();
 
   return (
-    <footer className="bg-obsidian-950 border-t border-slate-800/80 text-slate-400 text-sm">
+    <footer className="bg-obsidian-950 border-t border-graphite-800 text-slate-400 text-sm">
       {/* Trust Highlights Section */}
-      <div className="border-b border-slate-800/60 bg-slate-900/50 py-10 px-4 sm:px-8">
+      <div className="border-b border-graphite-850 bg-graphite-900/60 py-10 px-4 sm:px-8">
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-slate-900/80 border border-slate-800/80 hover:border-cyan-500/40 transition-colors">
-            <div className="p-2.5 rounded-xl bg-cyan-500/10 text-cyan-400 shrink-0 border border-cyan-500/30">
+          <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-graphite-900/90 border border-graphite-800 hover:border-yellow-400/40 transition-colors">
+            <div className="p-2.5 rounded-xl bg-yellow-400/10 text-yellow-400 shrink-0 border border-yellow-400/30">
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
@@ -37,8 +37,8 @@ export const Footer = () => {
             </div>
           </div>
 
-          <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-slate-900/80 border border-slate-800/80 hover:border-cyan-500/40 transition-colors">
-            <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 shrink-0 border border-emerald-500/30">
+          <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-graphite-900/90 border border-graphite-800 hover:border-red-500/40 transition-colors">
+            <div className="p-2.5 rounded-xl bg-red-600/10 text-red-500 shrink-0 border border-red-600/30">
               <Wrench className="w-5 h-5" />
             </div>
             <div>
@@ -49,8 +49,8 @@ export const Footer = () => {
             </div>
           </div>
 
-          <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-slate-900/80 border border-slate-800/80 hover:border-cyan-500/40 transition-colors">
-            <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-400 shrink-0 border border-amber-500/30">
+          <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-graphite-900/90 border border-graphite-800 hover:border-yellow-400/40 transition-colors">
+            <div className="p-2.5 rounded-xl bg-yellow-400/10 text-yellow-400 shrink-0 border border-yellow-400/30">
               <Truck className="w-5 h-5" />
             </div>
             <div>
@@ -61,8 +61,8 @@ export const Footer = () => {
             </div>
           </div>
 
-          <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-slate-900/80 border border-slate-800/80 hover:border-cyan-500/40 transition-colors">
-            <div className="p-2.5 rounded-xl bg-coral/10 text-coral shrink-0 border border-coral/30">
+          <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-graphite-900/90 border border-graphite-800 hover:border-red-500/40 transition-colors">
+            <div className="p-2.5 rounded-xl bg-red-600/10 text-red-500 shrink-0 border border-red-600/30">
               <Sparkles className="w-5 h-5" />
             </div>
             <div>
@@ -86,23 +86,23 @@ export const Footer = () => {
 
           <div className="space-y-2.5 text-xs pt-1">
             <div className="flex items-start gap-2.5 text-slate-300">
-              <MapPin className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+              <MapPin className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />
               <span><strong>Lahore Hub:</strong> {settings.addressLahore}</span>
             </div>
             <div className="flex items-start gap-2.5 text-slate-300">
-              <MapPin className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+              <MapPin className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
               <span><strong>Karachi Hub:</strong> {settings.addressKarachi}</span>
             </div>
             <div className="flex items-center gap-2.5 text-slate-300">
-              <Phone className="w-4 h-4 text-cyan-400 shrink-0" />
+              <Phone className="w-4 h-4 text-yellow-400 shrink-0" />
               <span>{settings.phone}</span>
             </div>
             <div className="flex items-center gap-2.5 text-slate-300">
-              <Mail className="w-4 h-4 text-cyan-400 shrink-0" />
+              <Mail className="w-4 h-4 text-red-500 shrink-0" />
               <span>{settings.email}</span>
             </div>
             <div className="flex items-center gap-2.5 text-slate-400">
-              <Clock className="w-4 h-4 text-cyan-400 shrink-0" />
+              <Clock className="w-4 h-4 text-yellow-400 shrink-0" />
               <span>{settings.businessHours}</span>
             </div>
           </div>
@@ -122,15 +122,16 @@ export const Footer = () => {
 
         {/* Categories */}
         <div>
-          <h4 className="font-bold text-white text-xs mb-4 uppercase tracking-wider">
+          <h4 className="font-bold text-white text-xs mb-4 uppercase tracking-wider flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
             Hardware &amp; Parts
           </h4>
-          <ul className="space-y-2 text-xs">
+          <ul className="space-y-2.5 text-xs">
             {categories.slice(0, 6).map((cat) => (
               <li key={cat.id}>
                 <Link
                   href={`/category/${cat.slug}`}
-                  className="hover:text-cyan-400 transition-colors"
+                  className="hover:text-yellow-400 transition-colors"
                 >
                   {cat.name}
                 </Link>
@@ -139,7 +140,7 @@ export const Footer = () => {
             <li>
               <Link
                 href="/category/graphics-cards"
-                className="text-cyan-400 font-semibold hover:underline"
+                className="text-yellow-400 font-semibold hover:underline"
               >
                 View All Categories &rarr;
               </Link>
@@ -149,37 +150,38 @@ export const Footer = () => {
 
         {/* Systems & Builders */}
         <div>
-          <h4 className="font-bold text-white text-xs mb-4 uppercase tracking-wider">
+          <h4 className="font-bold text-white text-xs mb-4 uppercase tracking-wider flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-red-600"></span>
             Custom Gaming
           </h4>
-          <ul className="space-y-2 text-xs">
+          <ul className="space-y-2.5 text-xs">
             <li>
-              <Link href="/builds" className="hover:text-cyan-400 transition-colors">
+              <Link href="/builds" className="hover:text-yellow-400 transition-colors">
                 Prebuilt Gaming PCs
               </Link>
             </li>
             <li>
-              <Link href="/pc-builder" className="hover:text-cyan-400 transition-colors font-semibold text-cyan-400">
+              <Link href="/pc-builder" className="hover:text-yellow-400 transition-colors font-bold text-yellow-400">
                 Custom PC Builder
               </Link>
             </li>
             <li>
-              <Link href="/quote" className="hover:text-cyan-400 transition-colors">
+              <Link href="/quote" className="hover:text-yellow-400 transition-colors">
                 Request a Custom Quote
               </Link>
             </li>
             <li>
-              <Link href="/guides" className="hover:text-cyan-400 transition-colors">
+              <Link href="/guides" className="hover:text-yellow-400 transition-colors">
                 PC Buying Guides
               </Link>
             </li>
             <li>
-              <Link href="/compare" className="hover:text-cyan-400 transition-colors">
+              <Link href="/compare" className="hover:text-yellow-400 transition-colors">
                 Compare Components
               </Link>
             </li>
             <li>
-              <Link href="/track" className="hover:text-cyan-400 transition-colors">
+              <Link href="/track" className="hover:text-yellow-400 transition-colors">
                 Track Order Status
               </Link>
             </li>
@@ -188,42 +190,38 @@ export const Footer = () => {
 
         {/* Customer Care & Policies */}
         <div>
-          <h4 className="font-bold text-white text-xs mb-4 uppercase tracking-wider">
+          <h4 className="font-bold text-white text-xs mb-4 uppercase tracking-wider flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
             Support &amp; Policies
           </h4>
-          <ul className="space-y-2 text-xs">
+          <ul className="space-y-2.5 text-xs">
             <li>
-              <Link href="/faq" className="hover:text-cyan-400 transition-colors">
+              <Link href="/faq" className="hover:text-yellow-400 transition-colors">
                 Frequently Asked Questions
               </Link>
             </li>
             <li>
-              <Link href="/warranty" className="hover:text-cyan-400 transition-colors">
+              <Link href="/warranty" className="hover:text-yellow-400 transition-colors">
                 Warranty Claims &amp; Coverage
               </Link>
             </li>
             <li>
-              <Link href="/delivery" className="hover:text-cyan-400 transition-colors">
+              <Link href="/delivery" className="hover:text-yellow-400 transition-colors">
                 Pakistan Delivery &amp; TCS Shipping
               </Link>
             </li>
             <li>
-              <Link href="/returns" className="hover:text-cyan-400 transition-colors">
+              <Link href="/returns" className="hover:text-yellow-400 transition-colors">
                 Returns &amp; Replacement Policy
               </Link>
             </li>
             <li>
-              <Link href="/privacy" className="hover:text-cyan-400 transition-colors">
-                Privacy Policy
-              </Link>
-            </li>
-            <li>
-              <Link href="/contact" className="hover:text-cyan-400 transition-colors">
+              <Link href="/contact" className="hover:text-yellow-400 transition-colors">
                 Contact &amp; Store Locations
               </Link>
             </li>
             <li>
-              <Link href="/admin" className="text-slate-500 hover:text-cyan-400 transition-colors">
+              <Link href="/admin" className="text-slate-500 hover:text-yellow-400 transition-colors">
                 Admin Control Panel
               </Link>
             </li>
@@ -232,16 +230,16 @@ export const Footer = () => {
       </div>
 
       {/* Bottom Bar & Demo Disclaimer */}
-      <div className="border-t border-slate-800/80 py-6 px-4 sm:px-8 text-xs text-slate-500">
+      <div className="border-t border-graphite-850 py-6 px-4 sm:px-8 text-xs text-slate-500">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
           <p>
             &copy; {new Date().getFullYear()} <strong>{settings.storeName}</strong>. Handcrafted for Pakistani Gamers.
           </p>
           <div className="flex items-center gap-2 text-[11px] text-slate-400">
-            <span className="px-2.5 py-0.5 rounded-md bg-slate-900 border border-slate-800 text-cyan-400 font-mono">
+            <span className="px-2.5 py-0.5 rounded-md bg-graphite-900 border border-graphite-800 text-yellow-400 font-mono font-bold">
               Prices in PKR (Rs.)
             </span>
-            <span>Insured Courier Nationwide via TCS &amp; Leopard.</span>
+            <span>Insured Courier Nationwide via TCS Express.</span>
           </div>
         </div>
       </div>

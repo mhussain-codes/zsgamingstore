@@ -13,6 +13,8 @@ import {
   Smartphone,
   ArrowRight,
   Package,
+  Flame,
+  Check,
 } from "lucide-react";
 import { useStore } from "@/context/StoreContext";
 import { formatPKR } from "@/utils/format";
@@ -113,105 +115,59 @@ export default function CheckoutPage() {
     };
 
     addOrder(newOrder);
-    clearCart();
     setConfirmedOrder(newOrder);
-    showToast(`Order ${orderId} placed successfully in Demo Mode!`, "success");
+    clearCart();
+    showToast("Order placed successfully! Check your demo order details.", "success");
   };
 
-  // If order was just placed, display rich Order Confirmation screen
   if (confirmedOrder) {
     return (
-      <div className="max-w-4xl mx-auto px-4 sm:px-8 py-12 space-y-8 animate-fadeIn">
-        <div className="p-8 sm:p-12 rounded-3xl bg-graphite-900 border border-cyan/40 text-center space-y-4 shadow-card">
-          <div className="w-16 h-16 rounded-full bg-cyan/10 border border-cyan text-cyan flex items-center justify-center mx-auto">
-            <CheckCircle2 className="w-8 h-8" />
+      <div className="max-w-3xl mx-auto px-4 py-12 space-y-8 animate-fadeIn">
+        <div className="p-8 rounded-3xl bg-obsidian-900 border border-yellow-400 text-center space-y-4 shadow-2xl">
+          <div className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center mx-auto text-white shadow-lg">
+            <CheckCircle2 className="w-10 h-10 text-yellow-300" />
           </div>
-
-          <div className="inline-block px-3 py-1 rounded-full bg-graphite-800 border border-graphite-700 text-xs text-slate-300 font-mono">
-            Demo Order Placed Successfully
-          </div>
-
-          <h1 className="text-2xl sm:text-4xl font-black text-white">
+          <span className="inline-block px-3 py-1 rounded-full bg-yellow-400 text-obsidian-950 font-black text-xs uppercase tracking-wider">
+            Order Confirmed &bull; ZS Gaming Store
+          </span>
+          <h1 className="text-2xl sm:text-3xl font-black text-white">
             Thank You, {confirmedOrder.customer.fullName}!
           </h1>
-
           <p className="text-xs sm:text-sm text-slate-300 max-w-lg mx-auto leading-relaxed">
-            Your demo order reference is <strong className="text-cyan font-mono">{confirmedOrder.orderId}</strong>. A confirmation has been registered in the system.
+            Your gaming hardware order has been received. Our assembly technicians in Lahore will benchmark and WhatsApp you the thermal testing proof.
           </p>
 
-          <div className="p-4 rounded-2xl bg-graphite-950 border border-graphite-800 text-xs text-slate-300 max-w-md mx-auto space-y-1 text-left">
+          <div className="p-4 rounded-2xl bg-black border border-white/10 max-w-md mx-auto grid grid-cols-2 gap-4 text-left text-xs font-mono">
             <div>
-              <span className="text-slate-500">Tracking Number:</span>{" "}
-              <strong className="text-white font-mono">{confirmedOrder.trackingNumber}</strong>
+              <span className="text-slate-400 text-[10px] uppercase font-bold">Order ID</span>
+              <div className="font-bold text-white text-sm">{confirmedOrder.orderId}</div>
             </div>
             <div>
-              <span className="text-slate-500">Destination:</span>{" "}
-              <strong className="text-white">{confirmedOrder.customer.city}, {confirmedOrder.customer.province}</strong>
+              <span className="text-slate-400 text-[10px] uppercase font-bold">TCS Tracking #</span>
+              <div className="font-bold text-yellow-400 text-sm">{confirmedOrder.trackingNumber}</div>
             </div>
             <div>
-              <span className="text-slate-500">Payment:</span>{" "}
-              <strong className="text-white capitalize">{confirmedOrder.paymentMethod.replace("_", " ")}</strong>
+              <span className="text-slate-400 text-[10px] uppercase font-bold">Destination</span>
+              <div className="text-slate-200">{confirmedOrder.customer.city}, Pakistan</div>
             </div>
             <div>
-              <span className="text-slate-500">Total:</span>{" "}
-              <strong className="text-cyan font-mono">{formatPKR(confirmedOrder.total)}</strong>
+              <span className="text-slate-400 text-[10px] uppercase font-bold">Total Amount</span>
+              <div className="text-yellow-400 font-bold">{formatPKR(confirmedOrder.total)}</div>
             </div>
           </div>
 
-          {/* Assembly & Dispatch Roadmap */}
-          <div className="pt-6 border-t border-graphite-800 max-w-xl mx-auto text-left">
-            <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-4 text-center">
-              What Happens Next (ZS Assembly &amp; Dispatch Protocol)
-            </h4>
-
-            <div className="space-y-3 text-xs">
-              <div className="flex items-start gap-3">
-                <span className="w-5 h-5 rounded-full bg-cyan text-graphite-950 font-bold flex items-center justify-center text-[10px] shrink-0 mt-0.5">
-                  1
-                </span>
-                <div>
-                  <strong className="text-white">Component Verification:</strong> Serial numbers and seals verified against official local distributor records.
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <span className="w-5 h-5 rounded-full bg-graphite-800 text-slate-300 font-bold flex items-center justify-center text-[10px] shrink-0 mt-0.5">
-                  2
-                </span>
-                <div>
-                  <strong className="text-white">Professional Build &amp; Cable Management:</strong> Clean routing and thermal paste application in our dust-controlled workbench.
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <span className="w-5 h-5 rounded-full bg-graphite-800 text-slate-300 font-bold flex items-center justify-center text-[10px] shrink-0 mt-0.5">
-                  3
-                </span>
-                <div>
-                  <strong className="text-white">24h Stress Testing:</strong> Cinebench R23, FurMark, and MemTest86 logs generated with thermal imaging.
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <span className="w-5 h-5 rounded-full bg-graphite-800 text-slate-300 font-bold flex items-center justify-center text-[10px] shrink-0 mt-0.5">
-                  4
-                </span>
-                <div>
-                  <strong className="text-white">Insured TCS Dispatch:</strong> Instapak foam bracing inserted into PC chassis, double-boxed, and handed to courier.
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="pt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               href={`/track?id=${confirmedOrder.orderId}`}
-              className="px-6 py-3 rounded-xl bg-cyan hover:bg-cyan-400 text-graphite-950 font-black text-xs shadow-cyanHover transition-all"
+              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-yellow-400 text-obsidian-950 font-black text-xs hover:bg-yellow-300 transition-all shadow-yellowHover"
             >
-              Track Order Progress
+              Track Order Live
             </Link>
             <Link
               href="/"
-              className="px-6 py-3 rounded-xl bg-graphite-800 hover:bg-graphite-700 text-white font-bold text-xs border border-graphite-700 transition-colors"
+              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-colors"
             >
-              Return to Store
+              Back to Store Home
             </Link>
           </div>
         </div>
@@ -223,104 +179,92 @@ export default function CheckoutPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-8 py-8 space-y-8">
       {/* Breadcrumb */}
       <nav className="text-xs text-slate-400 flex items-center gap-2">
-        <Link href="/" className="hover:text-cyan transition-colors">
+        <Link href="/" className="hover:text-yellow-400 transition-colors">
           Home
         </Link>
         <span>/</span>
-        <Link href="/cart" className="hover:text-cyan transition-colors">
+        <Link href="/cart" className="hover:text-yellow-400 transition-colors">
           Cart
         </Link>
         <span>/</span>
         <span className="text-white font-medium">Checkout</span>
       </nav>
 
-      {/* Honest Demo Notice */}
-      <div className="p-4 rounded-2xl bg-cyan/10 border border-cyan/30 flex items-start gap-3 text-xs text-slate-200">
-        <ShieldAlert className="w-5 h-5 text-cyan shrink-0 mt-0.5" />
-        <div>
-          <strong className="text-white">Demo Checkout Mode:</strong> This checkout flow simulates an authentic Pakistani e-commerce ordering experience. No live financial payment gateway is billed, and no real credit card numbers should be entered. Your order will be stored locally so you can inspect tracking and view it in the Admin Panel.
-        </div>
+      <div className="space-y-1">
+        <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+          Secure Checkout
+        </h1>
+        <p className="text-xs text-slate-300">
+          Enter your delivery details in Pakistan. Select your preferred payment method.
+        </p>
       </div>
 
-      <form onSubmit={handleSubmitOrder} className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-        {/* Left Column: Contact, Shipping, Payment Options (7 cols) */}
-        <div className="lg:col-span-7 space-y-8">
-          {/* 1. Contact Information */}
-          <div className="p-6 rounded-2xl bg-graphite-900 border border-graphite-800 space-y-4">
-            <h2 className="text-base font-black text-white uppercase tracking-wider flex items-center gap-2">
-              <span className="w-6 h-6 rounded-lg bg-cyan text-graphite-950 text-xs font-black flex items-center justify-center">
+      <form onSubmit={handleSubmitOrder} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Left Form (8 cols) */}
+        <div className="lg:col-span-8 space-y-6">
+          {/* 1. Customer & Delivery Address */}
+          <div className="p-6 rounded-2xl bg-obsidian-900 border border-white/10 space-y-4">
+            <h2 className="text-base font-bold text-white flex items-center gap-2">
+              <span className="w-6 h-6 rounded-lg bg-yellow-400 text-obsidian-950 text-xs font-black flex items-center justify-center">
                 1
               </span>
-              Contact Information
+              <span>Delivery Details (Pakistan)</span>
             </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-              <div className="space-y-1.5 sm:col-span-2">
-                <label className="font-bold text-slate-300">Full Name *</label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-1">
+                  Full Name *
+                </label>
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Bilal Ahmed"
+                  placeholder="e.g. Bilal Khan"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full bg-graphite-950 border border-graphite-750 rounded-xl p-3 text-white placeholder-slate-500 focus:border-cyan"
+                  className="w-full bg-black border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:border-yellow-400 focus:outline-none"
                 />
               </div>
 
-              <div className="space-y-1.5">
-                <label className="font-bold text-slate-300">Email Address *</label>
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-1">
+                  Email Address *
+                </label>
                 <input
                   type="email"
                   required
                   placeholder="bilal@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-graphite-950 border border-graphite-750 rounded-xl p-3 text-white placeholder-slate-500 focus:border-cyan"
+                  className="w-full bg-black border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:border-yellow-400 focus:outline-none"
                 />
               </div>
 
-              <div className="space-y-1.5">
-                <label className="font-bold text-slate-300">Mobile Phone (+92) *</label>
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-1">
+                  Mobile / WhatsApp Number *
+                </label>
                 <input
                   type="tel"
                   required
-                  placeholder="+92 300 1234567"
+                  placeholder="0300 1234567"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full bg-graphite-950 border border-graphite-750 rounded-xl p-3 text-white placeholder-slate-500 focus:border-cyan"
+                  className="w-full bg-black border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:border-yellow-400 focus:outline-none"
                 />
-              </div>
-            </div>
-          </div>
-
-          {/* 2. Delivery Address in Pakistan */}
-          <div className="p-6 rounded-2xl bg-graphite-900 border border-graphite-800 space-y-4">
-            <h2 className="text-base font-black text-white uppercase tracking-wider flex items-center gap-2">
-              <span className="w-6 h-6 rounded-lg bg-cyan text-graphite-950 text-xs font-black flex items-center justify-center">
-                2
-              </span>
-              Shipping Destination (Pakistan)
-            </h2>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-              <div className="space-y-1.5 sm:col-span-2">
-                <label className="font-bold text-slate-300">Street Address / House # *</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="House #, Street name, Sector/Block"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  className="w-full bg-graphite-950 border border-graphite-750 rounded-xl p-3 text-white placeholder-slate-500 focus:border-cyan"
-                />
+                <span className="text-[10px] text-yellow-400">
+                  We WhatsApp thermal benchmark video to this number.
+                </span>
               </div>
 
-              <div className="space-y-1.5">
-                <label className="font-bold text-slate-300">City *</label>
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-1">
+                  City *
+                </label>
                 <select
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
-                  className="w-full bg-graphite-950 border border-graphite-750 rounded-xl p-3 text-white focus:border-cyan"
+                  className="w-full bg-black border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:border-yellow-400 focus:outline-none"
                 >
                   {PAKISTAN_CITIES.map((c) => (
                     <option key={c} value={c}>
@@ -330,12 +274,28 @@ export default function CheckoutPage() {
                 </select>
               </div>
 
-              <div className="space-y-1.5">
-                <label className="font-bold text-slate-300">Province *</label>
+              <div className="sm:col-span-2">
+                <label className="block text-xs font-bold text-slate-300 mb-1">
+                  Complete Street Address *
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="House #, Street #, Sector / Phase / Area"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  className="w-full bg-black border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:border-yellow-400 focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-1">
+                  Province
+                </label>
                 <select
                   value={province}
                   onChange={(e) => setProvince(e.target.value)}
-                  className="w-full bg-graphite-950 border border-graphite-750 rounded-xl p-3 text-white focus:border-cyan"
+                  className="w-full bg-black border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white focus:border-yellow-400 focus:outline-none"
                 >
                   {PAKISTAN_PROVINCES.map((p) => (
                     <option key={p} value={p}>
@@ -345,297 +305,262 @@ export default function CheckoutPage() {
                 </select>
               </div>
 
-              <div className="space-y-1.5 sm:col-span-2">
-                <label className="font-bold text-slate-300">Order Notes (Optional)</label>
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-1">
+                  Postal Code (Optional)
+                </label>
+                <input
+                  type="text"
+                  placeholder="54000"
+                  value={postalCode}
+                  onChange={(e) => setPostalCode(e.target.value)}
+                  className="w-full bg-black border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:border-yellow-400 focus:outline-none"
+                />
+              </div>
+
+              <div className="sm:col-span-2">
+                <label className="block text-xs font-bold text-slate-300 mb-1">
+                  Order Notes / Custom Requests (Optional)
+                </label>
                 <textarea
                   rows={2}
-                  placeholder="Special instructions for PC assembly or delivery timing"
+                  placeholder="e.g. Please install Windows 11 demo, specific RGB color theme, or call before dispatch."
                   value={orderNotes}
                   onChange={(e) => setOrderNotes(e.target.value)}
-                  className="w-full bg-graphite-950 border border-graphite-750 rounded-xl p-3 text-white placeholder-slate-500 focus:border-cyan"
+                  className="w-full bg-black border border-white/15 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:border-yellow-400 focus:outline-none"
                 />
               </div>
             </div>
           </div>
 
-          {/* 3. Delivery Method */}
-          <div className="p-6 rounded-2xl bg-graphite-900 border border-graphite-800 space-y-4">
-            <h2 className="text-base font-black text-white uppercase tracking-wider flex items-center gap-2">
-              <span className="w-6 h-6 rounded-lg bg-cyan text-graphite-950 text-xs font-black flex items-center justify-center">
+          {/* 2. Shipping Courier Method */}
+          <div className="p-6 rounded-2xl bg-obsidian-900 border border-white/10 space-y-4">
+            <h2 className="text-base font-bold text-white flex items-center gap-2">
+              <span className="w-6 h-6 rounded-lg bg-yellow-400 text-obsidian-950 text-xs font-black flex items-center justify-center">
+                2
+              </span>
+              <span>Shipping Method</span>
+            </h2>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <label
+                className={`p-4 rounded-xl border cursor-pointer flex items-start gap-3 transition-all ${
+                  shippingMethod === "standard_tcs"
+                    ? "bg-yellow-400/10 border-yellow-400"
+                    : "bg-black border-white/10 hover:border-white/20"
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="shippingMethod"
+                  checked={shippingMethod === "standard_tcs"}
+                  onChange={() => setShippingMethod("standard_tcs")}
+                  className="mt-1 text-yellow-400"
+                />
+                <div className="text-xs">
+                  <div className="font-bold text-white flex items-center gap-1.5">
+                    <span>TCS Insured Express</span>
+                    <span className="px-1.5 py-0.5 rounded text-[9px] font-black bg-yellow-400 text-obsidian-950">
+                      FREE
+                    </span>
+                  </div>
+                  <div className="text-slate-400 mt-1 leading-relaxed">
+                    2 to 4 business days. Foam braced packaging with tracking code.
+                  </div>
+                </div>
+              </label>
+
+              <label
+                className={`p-4 rounded-xl border cursor-pointer flex items-start gap-3 transition-all ${
+                  shippingMethod === "same_day_express"
+                    ? "bg-yellow-400/10 border-yellow-400"
+                    : "bg-black border-white/10 hover:border-white/20"
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="shippingMethod"
+                  checked={shippingMethod === "same_day_express"}
+                  onChange={() => setShippingMethod("same_day_express")}
+                  className="mt-1 text-yellow-400"
+                />
+                <div className="text-xs">
+                  <div className="font-bold text-white flex items-center gap-1.5">
+                    <span>Same-Day Courier (Lahore &amp; KHI)</span>
+                    <span className="text-yellow-400 font-mono font-bold">+Rs. 1,500</span>
+                  </div>
+                  <div className="text-slate-400 mt-1 leading-relaxed">
+                    Hand-delivered by store rider within Lahore or Karachi city limits.
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          {/* 3. Payment Method */}
+          <div className="p-6 rounded-2xl bg-obsidian-900 border border-white/10 space-y-4">
+            <h2 className="text-base font-bold text-white flex items-center gap-2">
+              <span className="w-6 h-6 rounded-lg bg-yellow-400 text-obsidian-950 text-xs font-black flex items-center justify-center">
                 3
               </span>
-              Delivery Option
+              <span>Payment Option</span>
             </h2>
 
-            <div className="space-y-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <label
-                className={`p-4 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
-                  shippingMethod === "standard_tcs"
-                    ? "bg-cyan/10 border-cyan text-white"
-                    : "bg-graphite-950 border-graphite-800 text-slate-300"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <input
-                    type="radio"
-                    name="shipping"
-                    checked={shippingMethod === "standard_tcs"}
-                    onChange={() => setShippingMethod("standard_tcs")}
-                    className="text-cyan focus:ring-cyan"
-                  />
-                  <div>
-                    <div className="font-bold text-xs text-white">
-                      Insured TCS Express (1-3 Days Nationwide)
-                    </div>
-                    <div className="text-[11px] text-slate-400">
-                      Double-boxed with internal expanding Instapak foam
-                    </div>
-                  </div>
-                </div>
-                <span className="font-black font-mono text-emerald-400 text-xs">FREE</span>
-              </label>
-
-              <label
-                className={`p-4 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
-                  shippingMethod === "same_day_express"
-                    ? "bg-cyan/10 border-cyan text-white"
-                    : "bg-graphite-950 border-graphite-800 text-slate-300"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <input
-                    type="radio"
-                    name="shipping"
-                    checked={shippingMethod === "same_day_express"}
-                    onChange={() => setShippingMethod("same_day_express")}
-                    className="text-cyan focus:ring-cyan"
-                  />
-                  <div>
-                    <div className="font-bold text-xs text-white">
-                      Same-Day Lahore / Karachi Express Rider
-                    </div>
-                    <div className="text-[11px] text-slate-400">
-                      Hand-delivered within 4 hours by store technician
-                    </div>
-                  </div>
-                </div>
-                <span className="font-black font-mono text-cyan text-xs">Rs. 1,500</span>
-              </label>
-            </div>
-          </div>
-
-          {/* 4. Payment Method */}
-          <div className="p-6 rounded-2xl bg-graphite-900 border border-graphite-800 space-y-4">
-            <h2 className="text-base font-black text-white uppercase tracking-wider flex items-center gap-2">
-              <span className="w-6 h-6 rounded-lg bg-cyan text-graphite-950 text-xs font-black flex items-center justify-center">
-                4
-              </span>
-              Payment Method
-            </h2>
-
-            <div className="space-y-3">
-              <label
-                className={`p-4 rounded-xl border flex items-center gap-3 cursor-pointer transition-all ${
+                className={`p-4 rounded-xl border cursor-pointer flex items-start gap-3 transition-all ${
                   paymentMethod === "bank_transfer"
-                    ? "bg-cyan/10 border-cyan text-white"
-                    : "bg-graphite-950 border-graphite-800 text-slate-300"
+                    ? "bg-yellow-400/10 border-yellow-400"
+                    : "bg-black border-white/10 hover:border-white/20"
                 }`}
               >
                 <input
                   type="radio"
-                  name="payment"
+                  name="paymentMethod"
                   checked={paymentMethod === "bank_transfer"}
                   onChange={() => setPaymentMethod("bank_transfer")}
-                  className="text-cyan focus:ring-cyan"
+                  className="mt-1 text-yellow-400"
                 />
-                <Building className="w-4 h-4 text-cyan" />
-                <div>
-                  <div className="font-bold text-xs text-white">Direct Bank Transfer (IBFT)</div>
-                  <div className="text-[11px] text-slate-400">
-                    Meezan Bank, HBL, Bank Alfalah, or Raast instant payment
+                <div className="text-xs">
+                  <div className="font-bold text-white flex items-center gap-1.5">
+                    <Building className="w-3.5 h-3.5 text-yellow-400" />
+                    <span>Direct Bank Transfer / Raast</span>
+                  </div>
+                  <div className="text-slate-400 mt-1 leading-relaxed">
+                    Meezan / HBL / Standard Chartered bank account details provided upon confirmation.
                   </div>
                 </div>
               </label>
 
               <label
-                className={`p-4 rounded-xl border flex items-center gap-3 cursor-pointer transition-all ${
+                className={`p-4 rounded-xl border cursor-pointer flex items-start gap-3 transition-all ${
                   paymentMethod === "cod"
-                    ? "bg-cyan/10 border-cyan text-white"
-                    : "bg-graphite-950 border-graphite-800 text-slate-300"
+                    ? "bg-yellow-400/10 border-yellow-400"
+                    : "bg-black border-white/10 hover:border-white/20"
                 }`}
               >
                 <input
                   type="radio"
-                  name="payment"
+                  name="paymentMethod"
                   checked={paymentMethod === "cod"}
                   onChange={() => setPaymentMethod("cod")}
-                  className="text-cyan focus:ring-cyan"
+                  className="mt-1 text-yellow-400"
                 />
-                <Truck className="w-4 h-4 text-cyan" />
-                <div>
-                  <div className="font-bold text-xs text-white">Cash on Delivery (COD)</div>
-                  <div className="text-[11px] text-slate-400">
-                    Available with a small confirmation advance for prebuilts
+                <div className="text-xs">
+                  <div className="font-bold text-white flex items-center gap-1.5">
+                    <Truck className="w-3.5 h-3.5 text-yellow-400" />
+                    <span>Cash on Delivery (COD)</span>
+                  </div>
+                  <div className="text-slate-400 mt-1 leading-relaxed">
+                    Pay in cash upon doorstep delivery (available for orders up to Rs. 150,000).
                   </div>
                 </div>
               </label>
 
               <label
-                className={`p-4 rounded-xl border flex items-center gap-3 cursor-pointer transition-all ${
+                className={`p-4 rounded-xl border cursor-pointer flex items-start gap-3 transition-all ${
                   paymentMethod === "easypaisa_jazzcash"
-                    ? "bg-cyan/10 border-cyan text-white"
-                    : "bg-graphite-950 border-graphite-800 text-slate-300"
+                    ? "bg-yellow-400/10 border-yellow-400"
+                    : "bg-black border-white/10 hover:border-white/20"
                 }`}
               >
                 <input
                   type="radio"
-                  name="payment"
+                  name="paymentMethod"
                   checked={paymentMethod === "easypaisa_jazzcash"}
                   onChange={() => setPaymentMethod("easypaisa_jazzcash")}
-                  className="text-cyan focus:ring-cyan"
+                  className="mt-1 text-yellow-400"
                 />
-                <Smartphone className="w-4 h-4 text-emerald-400" />
-                <div>
-                  <div className="font-bold text-xs text-white">Easypaisa / JazzCash</div>
-                  <div className="text-[11px] text-slate-400">
-                    Mobile account transfer with receipt upload
+                <div className="text-xs">
+                  <div className="font-bold text-white flex items-center gap-1.5">
+                    <Smartphone className="w-3.5 h-3.5 text-red-500" />
+                    <span>JazzCash / EasyPaisa</span>
+                  </div>
+                  <div className="text-slate-400 mt-1 leading-relaxed">
+                    Instant mobile wallet payment to official merchant account.
                   </div>
                 </div>
               </label>
 
               <label
-                className={`p-4 rounded-xl border flex items-center gap-3 cursor-pointer transition-all ${
+                className={`p-4 rounded-xl border cursor-pointer flex items-start gap-3 transition-all ${
                   paymentMethod === "card_demo"
-                    ? "bg-cyan/10 border-cyan text-white"
-                    : "bg-graphite-950 border-graphite-800 text-slate-300"
+                    ? "bg-yellow-400/10 border-yellow-400"
+                    : "bg-black border-white/10 hover:border-white/20"
                 }`}
               >
                 <input
                   type="radio"
-                  name="payment"
+                  name="paymentMethod"
                   checked={paymentMethod === "card_demo"}
                   onChange={() => setPaymentMethod("card_demo")}
-                  className="text-cyan focus:ring-cyan"
+                  className="mt-1 text-yellow-400"
                 />
-                <CreditCard className="w-4 h-4 text-cyan" />
-                <div>
-                  <div className="font-bold text-xs text-white">
-                    Simulated Demo Card (Safe Demo Form)
+                <div className="text-xs">
+                  <div className="font-bold text-white flex items-center gap-1.5">
+                    <CreditCard className="w-3.5 h-3.5 text-white" />
+                    <span>Credit / Debit Card (Demo)</span>
                   </div>
-                  <div className="text-[11px] text-slate-400">
-                    Test the checkout experience without submitting real payment information
+                  <div className="text-slate-400 mt-1 leading-relaxed">
+                    Simulate card transaction with test numbers (no real card collected).
                   </div>
                 </div>
               </label>
             </div>
-
-            {/* If Demo Card selected, display harmless simulated input */}
-            {paymentMethod === "card_demo" && (
-              <div className="mt-3 p-4 rounded-xl bg-graphite-950 border border-graphite-750 space-y-3 text-xs">
-                <div className="text-amber-400 text-[11px] font-semibold flex items-center gap-1.5">
-                  <ShieldAlert className="w-3.5 h-3.5" />
-                  <span>Demo only: Never enter real banking credentials here.</span>
-                </div>
-                <div className="space-y-1">
-                  <label className="text-slate-400">Cardholder Name (Demo)</label>
-                  <input
-                    type="text"
-                    placeholder="e.g. John Doe"
-                    value={demoCardName}
-                    onChange={(e) => setDemoCardName(e.target.value)}
-                    className="w-full bg-graphite-900 border border-graphite-700 rounded-lg p-2 text-white"
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="space-y-1">
-                    <label className="text-slate-400">Demo Card # (Fake)</label>
-                    <input
-                      type="text"
-                      placeholder="4000 0000 0000 0000"
-                      value={demoCardNumber}
-                      onChange={(e) => setDemoCardNumber(e.target.value)}
-                      className="w-full bg-graphite-900 border border-graphite-700 rounded-lg p-2 text-white"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-slate-400">Expiry / CVC</label>
-                    <input
-                      type="text"
-                      placeholder="12/28 - 123"
-                      value={demoCardExpiry}
-                      onChange={(e) => setDemoCardExpiry(e.target.value)}
-                      className="w-full bg-graphite-900 border border-graphite-700 rounded-lg p-2 text-white"
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
 
-        {/* Right Column: Order Review & Complete Button (5 cols) */}
-        <div className="lg:col-span-5 p-6 rounded-2xl bg-graphite-900 border border-graphite-800 space-y-5 sticky top-24">
-          <h3 className="font-bold text-white text-base">Your Order Summary</h3>
+        {/* Right Column: Order Summary (4 cols) */}
+        <div className="lg:col-span-4 p-6 rounded-2xl bg-obsidian-900 border border-white/10 space-y-5 sticky top-24">
+          <h3 className="font-bold text-white text-base">Order Review</h3>
 
-          {/* Item Thumbnails List */}
-          <div className="max-h-64 overflow-y-auto space-y-2.5 divide-y divide-graphite-800 pr-1 scrollbar-thin">
-            {cart.map((c) => (
-              <div key={c.id} className="pt-2.5 flex items-center justify-between text-xs gap-3">
-                <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                  <img
-                    src={c.product.image}
-                    alt={c.product.name}
-                    className="w-10 h-10 object-cover rounded bg-graphite-950 border border-graphite-750 shrink-0"
-                  />
-                  <div className="min-w-0">
-                    <div className="font-bold text-white truncate">{c.product.name}</div>
-                    <div className="text-[11px] text-slate-400 font-mono">
-                      Qty: {c.quantity} &times; {formatPKR(c.product.salePrice ?? c.product.price)}
-                    </div>
+          <div className="space-y-3 max-h-60 overflow-y-auto pr-1 divide-y divide-white/5 scrollbar-thin">
+            {cart.map((item) => {
+              const effectivePrice = item.product.salePrice ?? item.product.price;
+              return (
+                <div key={item.id} className="pt-2.5 first:pt-0 flex items-center justify-between text-xs">
+                  <div className="min-w-0 flex-1 pr-2">
+                    <div className="font-bold text-white truncate">{item.product.name}</div>
+                    <div className="text-slate-400 text-[11px]">Qty: {item.quantity}</div>
+                  </div>
+                  <div className="font-mono font-bold text-yellow-400 shrink-0">
+                    {formatPKR(effectivePrice * item.quantity)}
                   </div>
                 </div>
-                <div className="font-bold text-white font-mono shrink-0">
-                  {formatPKR((c.product.salePrice ?? c.product.price) * c.quantity)}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
-          <div className="border-t border-graphite-800 pt-3 space-y-2 text-xs">
-            <div className="flex justify-between text-slate-300">
+          <div className="space-y-2.5 text-xs border-t border-white/10 pt-4">
+            <div className="flex items-center justify-between text-slate-300">
               <span>Subtotal</span>
               <span className="font-mono font-bold text-white">{formatPKR(cartTotal)}</span>
             </div>
-            <div className="flex justify-between text-slate-300">
-              <span>Shipping Fee</span>
-              <span className="font-mono font-bold text-emerald-400">
+            <div className="flex items-center justify-between text-slate-300">
+              <span>Delivery Charges</span>
+              <span className="font-mono font-bold text-yellow-400">
                 {shippingCost === 0 ? "FREE" : formatPKR(shippingCost)}
               </span>
             </div>
           </div>
 
-          <div className="border-t border-graphite-800 pt-4 flex items-baseline justify-between">
+          <div className="border-t border-white/10 pt-4 flex items-baseline justify-between">
             <div>
-              <div className="text-xs text-slate-400 font-medium">Grand Total (PKR)</div>
-              <div className="text-2xl font-black text-cyan font-mono">
+              <div className="text-xs text-slate-400 font-medium">Grand Total</div>
+              <div className="text-2xl font-black text-yellow-400 font-mono">
                 {formatPKR(finalTotal)}
               </div>
             </div>
-            <span className="text-[10px] text-slate-500 font-mono">Includes All Taxes</span>
+            <span className="text-[10px] text-white/50 font-mono">PKR Net</span>
           </div>
 
           <button
             type="submit"
-            disabled={cart.length === 0}
-            className="w-full py-3.5 rounded-xl bg-cyan hover:bg-cyan-400 disabled:opacity-40 text-graphite-950 font-black text-sm shadow-cyanHover transition-all flex items-center justify-center gap-2"
+            className="btn-shimmer w-full py-4 rounded-xl bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-600 text-white font-black text-sm shadow-redHover transition-all flex items-center justify-center gap-2"
           >
-            <span>Place Demo Order</span>
+            <span>Confirm &amp; Place Order</span>
             <ArrowRight className="w-4 h-4" />
           </button>
-
-          <p className="text-[11px] text-slate-500 text-center leading-relaxed">
-            By clicking place order, you are creating a local demo order record for testing the ZS order tracking and admin dispatch workflow.
-          </p>
         </div>
       </form>
     </div>

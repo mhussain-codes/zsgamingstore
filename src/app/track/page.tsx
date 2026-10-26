@@ -22,7 +22,7 @@ const TRACKING_STEPS = [
   { key: "confirmed", title: "Order Confirmed", desc: "Parts reserved and verified with local distributor" },
   { key: "testing_parts", title: "Component Testing", desc: "RAM timings and motherboard BIOS updated" },
   { key: "assembly", title: "Assembly & Cable Management", desc: "Precision assembly in dust-controlled bench" },
-  { key: "benchmark", title: "24h Stress & Thermal Test", desc: "Cinebench R23, FurMark & MemTest86 logs verified" },
+  { key: "benchmark", title: "3h Stress & Thermal Test", desc: "FurMark & Cinebench thermal video recorded for WhatsApp" },
   { key: "dispatched", title: "Dispatched via TCS Express", desc: "Instapak foam bracing inserted & shipped with tracking" },
   { key: "delivered", title: "Delivered to Customer", desc: "Safely received and operational" },
 ];
@@ -59,12 +59,16 @@ function TrackOrderContent() {
       case "Order Confirmed":
         return 0;
       case "Component Testing":
+      case "Received":
         return 1;
       case "Cable Management & Assembly":
+      case "Assembling":
         return 2;
       case "Stress Tested & Benchmarked":
+      case "Stress-Testing":
         return 3;
       case "Dispatched via TCS":
+      case "Dispatched":
         return 4;
       case "Delivered":
         return 5;
@@ -78,171 +82,165 @@ function TrackOrderContent() {
   return (
     <div className="space-y-8">
       {/* Tracking Search Input */}
-      <form onSubmit={handleSearch} className="p-4 sm:p-6 rounded-2xl bg-graphite-900 border border-graphite-800 flex flex-col sm:flex-row gap-3">
+      <form onSubmit={handleSearch} className="p-4 sm:p-6 rounded-2xl bg-obsidian-900 border border-white/10 flex flex-col sm:flex-row gap-3 shadow-xl">
         <div className="relative flex-1">
           <input
             type="text"
             placeholder="Enter Order ID (e.g. ZS-78921) or TCS Tracking Number"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full bg-graphite-950 border border-graphite-750 rounded-xl py-3 pl-10 pr-4 text-xs sm:text-sm text-white placeholder-slate-500 focus:border-cyan"
+            className="w-full bg-black border border-white/15 rounded-xl py-3 pl-10 pr-4 text-xs sm:text-sm text-white placeholder-slate-500 focus:border-yellow-400 focus:outline-none"
           />
           <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
         </div>
         <button
           type="submit"
-          className="px-6 py-3 rounded-xl bg-cyan hover:bg-cyan-400 text-graphite-950 font-black text-xs shadow-cyanHover transition-all shrink-0"
+          className="px-7 py-3 rounded-xl bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-300 hover:to-yellow-400 text-obsidian-950 font-black text-xs shadow-yellowHover transition-all shrink-0"
         >
           Track Order
         </button>
       </form>
 
       {/* Sample Quick Hint */}
-      {!searched && (
-        <div className="text-xs text-slate-400 bg-graphite-900/60 p-4 rounded-xl border border-graphite-800 flex items-center justify-between">
-          <span>Demo Hint: Try searching sample order <strong className="text-cyan font-mono cursor-pointer" onClick={() => { setQuery("ZS-78921"); setMatchedOrder(findOrder("ZS-78921") || null); setSearched(true); }}>ZS-78921</strong></span>
-          <span className="text-[11px] text-slate-500">Live test data</span>
-        </div>
-      )}
+      <div className="text-xs text-slate-400 flex flex-wrap items-center gap-2 px-1">
+        <span>Try demo order:</span>
+        <button
+          type="button"
+          onClick={() => {
+            setQuery("ZS-78921");
+            const found = findOrder("ZS-78921");
+            setMatchedOrder(found || null);
+            setSearched(true);
+          }}
+          className="text-yellow-400 font-mono font-bold hover:underline"
+        >
+          ZS-78921
+        </button>
+        <span>or</span>
+        <button
+          type="button"
+          onClick={() => {
+            setQuery("ZS-41092");
+            const found = findOrder("ZS-41092");
+            setMatchedOrder(found || null);
+            setSearched(true);
+          }}
+          className="text-yellow-400 font-mono font-bold hover:underline"
+        >
+          ZS-41092
+        </button>
+      </div>
 
-      {/* Order Tracking Display */}
-      {searched && matchedOrder && (
-        <div className="p-6 sm:p-8 rounded-3xl bg-graphite-900 border border-graphite-800 space-y-8 animate-fadeIn">
-          {/* Header Summary */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-graphite-800">
+      {/* Matched Order Result */}
+      {matchedOrder ? (
+        <div className="space-y-6 animate-fadeIn">
+          {/* Order Header Card */}
+          <div className="p-6 rounded-3xl bg-obsidian-900 border border-yellow-500/30 grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-slate-400">Order ID:</span>
-                <span className="text-lg font-black text-white font-mono">{matchedOrder.orderId}</span>
-                <span className="px-2 py-0.5 rounded-full bg-cyan/10 border border-cyan/30 text-cyan text-[10px] font-black uppercase">
-                  {matchedOrder.status}
-                </span>
-              </div>
-              <div className="text-xs text-slate-400 mt-1">
-                Placed on {matchedOrder.date} &bull; Destination: {matchedOrder.customer.city}, Pakistan
+              <div className="text-[10px] text-slate-400 uppercase font-bold">Order ID</div>
+              <div className="text-base font-black text-white font-mono">{matchedOrder.orderId}</div>
+            </div>
+            <div>
+              <div className="text-[10px] text-slate-400 uppercase font-bold">TCS Tracking #</div>
+              <div className="text-base font-black text-yellow-400 font-mono">{matchedOrder.trackingNumber}</div>
+            </div>
+            <div>
+              <div className="text-[10px] text-slate-400 uppercase font-bold">Current Milestone</div>
+              <div className="text-xs font-bold text-white bg-red-600 px-2 py-0.5 rounded-md inline-block mt-0.5">
+                {matchedOrder.status}
               </div>
             </div>
-
-            <div className="text-right">
-              <div className="text-xs text-slate-400">TCS Courier Number</div>
-              <div className="text-xs font-mono font-bold text-white mt-0.5">
-                {matchedOrder.trackingNumber}
-              </div>
+            <div>
+              <div className="text-[10px] text-slate-400 uppercase font-bold">Total Amount</div>
+              <div className="text-base font-black text-yellow-400 font-mono">{formatPKR(matchedOrder.total)}</div>
             </div>
           </div>
 
-          {/* Stepper Pipeline */}
-          <div className="space-y-6">
-            <h3 className="font-bold text-white text-xs uppercase tracking-wider">
-              Assembly &amp; Shipping Pipeline
-            </h3>
+          {/* Timeline Milestones */}
+          <div className="p-6 sm:p-8 rounded-3xl bg-obsidian-900 border border-white/10 space-y-6">
+            <h3 className="font-bold text-white text-base">Assembly &amp; Dispatch Timeline</h3>
 
-            <div className="relative pl-6 sm:pl-8 space-y-6 before:absolute before:left-2 sm:before:left-3 before:top-2 before:bottom-2 before:w-0.5 before:bg-graphite-800">
+            <div className="space-y-6 relative before:absolute before:left-3.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-white/10">
               {TRACKING_STEPS.map((step, idx) => {
                 const isPassed = idx <= currentStep;
                 const isCurrent = idx === currentStep;
 
                 return (
-                  <div key={step.key} className="relative flex items-start gap-4">
+                  <div key={step.key} className="flex items-start gap-4 relative">
                     <div
-                      className={`absolute -left-6 sm:-left-8 w-5 sm:w-6 h-5 sm:h-6 rounded-full flex items-center justify-center text-[10px] font-bold border transition-all ${
+                      className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-xs font-bold z-10 ${
                         isCurrent
-                          ? "bg-cyan border-cyan text-graphite-950 shadow-cyanHover animate-pulse"
+                          ? "bg-red-600 text-white ring-4 ring-red-500/30 animate-pulse"
                           : isPassed
-                          ? "bg-graphite-800 border-cyan text-cyan"
-                          : "bg-graphite-950 border-graphite-800 text-slate-600"
+                          ? "bg-yellow-400 text-obsidian-950 shadow-md"
+                          : "bg-black border border-white/20 text-slate-500"
                       }`}
                     >
-                      {isPassed && !isCurrent ? <CheckCircle2 className="w-3.5 h-3.5" /> : idx + 1}
+                      {isPassed ? <CheckCircle2 className="w-4 h-4" /> : idx + 1}
                     </div>
 
-                    <div className="space-y-0.5">
-                      <div
-                        className={`text-xs sm:text-sm font-bold ${
-                          isCurrent
-                            ? "text-cyan"
-                            : isPassed
-                            ? "text-white"
-                            : "text-slate-500"
-                        }`}
-                      >
-                        {step.title}
+                    <div className="min-w-0 flex-1 pt-0.5">
+                      <div className="flex items-center gap-2">
+                        <span className={`text-sm font-bold ${isPassed ? "text-white" : "text-slate-500"}`}>
+                          {step.title}
+                        </span>
+                        {isCurrent && (
+                          <span className="px-2 py-0.5 rounded text-[9px] font-black uppercase bg-red-600 text-white">
+                            Current Stage
+                          </span>
+                        )}
                       </div>
-                      <div className="text-xs text-slate-400">{step.desc}</div>
+                      <p className="text-xs text-slate-400 mt-0.5 leading-relaxed">
+                        {step.desc}
+                      </p>
                     </div>
                   </div>
                 );
               })}
             </div>
           </div>
-
-          {/* Included Items List */}
-          <div className="pt-6 border-t border-graphite-800 space-y-3">
-            <h4 className="font-bold text-white text-xs uppercase tracking-wider">
-              Order Items Summary
-            </h4>
-            <div className="divide-y divide-graphite-800 text-xs">
-              {matchedOrder.items.map((item, idx) => (
-                <div key={idx} className="py-2.5 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <img
-                      src={item.product.image}
-                      alt={item.product.name}
-                      className="w-8 h-8 rounded object-cover bg-graphite-950 border border-graphite-750"
-                    />
-                    <div>
-                      <div className="font-bold text-white">{item.product.name}</div>
-                      <div className="text-[11px] text-slate-500">Qty: {item.quantity}</div>
-                    </div>
-                  </div>
-                  <div className="font-mono font-bold text-white">
-                    {formatPKR((item.product.salePrice ?? item.product.price) * item.quantity)}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
-      )}
-
-      {/* Not Found State */}
-      {searched && !matchedOrder && (
-        <div className="p-12 text-center rounded-2xl bg-graphite-900 border border-graphite-800 space-y-3 animate-fadeIn">
-          <AlertCircle className="w-10 h-10 text-coral mx-auto" />
-          <h3 className="font-bold text-white text-base">Order Not Found</h3>
+      ) : searched ? (
+        <div className="p-12 text-center rounded-2xl bg-obsidian-900 border border-white/10 space-y-3">
+          <AlertCircle className="w-10 h-10 text-red-500 mx-auto" />
+          <h3 className="text-base font-bold text-white">No Order Found</h3>
           <p className="text-xs text-slate-400 max-w-sm mx-auto">
-            We could not locate an order matching &quot;{query}&quot;. Please verify your Order ID or contact support on WhatsApp (+92 300 9742646).
+            We couldn&apos;t find an order matching &quot;{query}&quot;. Please verify your Order ID or contact our WhatsApp support at +92 300 1234567.
           </p>
         </div>
-      )}
+      ) : null}
     </div>
   );
 }
 
 export default function TrackOrderPage() {
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-8 py-10 space-y-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-8 py-8 space-y-8">
       {/* Breadcrumb */}
       <nav className="text-xs text-slate-400 flex items-center gap-2">
-        <Link href="/" className="hover:text-cyan transition-colors">
+        <Link href="/" className="hover:text-yellow-400 transition-colors">
           Home
         </Link>
         <span>/</span>
-        <span className="text-white font-medium">Order Tracking</span>
+        <span className="text-white font-medium">Track Order</span>
       </nav>
 
-      {/* Header */}
-      <div className="p-8 rounded-3xl bg-gradient-to-r from-graphite-900 via-graphite-850 to-graphite-900 border border-graphite-800 space-y-2">
-        <div className="inline-flex items-center gap-1.5 text-cyan text-xs font-bold uppercase tracking-wider">
-          <Package className="w-4 h-4" />
-          <span>Live Build &amp; Transit Tracker</span>
+      {/* Header Banner */}
+      <div className="p-8 rounded-3xl bg-gradient-to-r from-obsidian-900 via-obsidian-850 to-obsidian-900 border border-yellow-500/30 relative overflow-hidden shadow-xl">
+        <div className="ambient-glow-yellow absolute inset-0 pointer-events-none" />
+
+        <div className="max-w-2xl space-y-2 relative z-10">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-600/20 border border-red-500/40 text-red-400 text-xs font-black uppercase tracking-wider">
+            <Truck className="w-4 h-4 text-yellow-300" />
+            <span>TCS Express &bull; Real-Time Rig Progress</span>
+          </div>
+          <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
+            Track Your Custom PC Assembly &amp; Delivery
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            Enter your ZS Order ID or TCS tracking code to follow your hardware through component testing, laser cable management, 3-hour FurMark thermal stress testing, and courier dispatch.
+          </p>
         </div>
-        <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
-          Track Your Gaming PC Order
-        </h1>
-        <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-          Monitor your system through every step: component serialization, clean cable management, 24-hour thermal stress testing, and insured TCS Express dispatch.
-        </p>
       </div>
 
       <Suspense fallback={<div className="p-8 text-center text-xs text-slate-400 animate-pulse">Loading tracking system...</div>}>

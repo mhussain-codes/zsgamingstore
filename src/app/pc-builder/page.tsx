@@ -26,6 +26,7 @@ import {
   Sparkles,
   Gauge,
   Check,
+  Flame,
 } from "lucide-react";
 import { useStore } from "@/context/StoreContext";
 import { Product, ProductCategory } from "@/types";
@@ -241,7 +242,7 @@ export default function PCBuilderPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-8 py-8 space-y-8">
       {/* Breadcrumb */}
       <nav className="text-xs text-slate-400 flex items-center gap-2">
-        <Link href="/" className="hover:text-cyan-400 transition-colors">
+        <Link href="/" className="hover:text-yellow-400 transition-colors">
           Home
         </Link>
         <span>/</span>
@@ -249,12 +250,12 @@ export default function PCBuilderPage() {
       </nav>
 
       {/* Header Banner */}
-      <div className="p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 border border-cyan-500/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-2xl relative overflow-hidden">
-        <div className="ambient-glow-cyan absolute inset-0 pointer-events-none" />
+      <div className="p-8 rounded-3xl bg-gradient-to-r from-obsidian-900 via-obsidian-850 to-obsidian-900 border border-yellow-500/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-2xl relative overflow-hidden">
+        <div className="ambient-glow-yellow absolute inset-0 pointer-events-none" />
 
         <div className="max-w-2xl space-y-2 relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-bold uppercase tracking-wider">
-            <Wrench className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-600/20 border border-red-500/40 text-red-400 text-xs font-black uppercase tracking-wider">
+            <Flame className="w-3.5 h-3.5 text-yellow-300" />
             <span>Interactive Hardware Configurator &bull; Pakistan</span>
           </div>
           <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
@@ -264,14 +265,14 @@ export default function PCBuilderPage() {
             Select parts step-by-step. Our engine checks Socket AM5 vs LGA1700, DDR4/DDR5 matching, and PSU wattage headroom in real time with transparent PKR pricing.
           </p>
 
-          <div className="pt-2 flex flex-wrap gap-3 text-[11px] text-slate-400">
-            <span className="flex items-center gap-1 text-emerald-400 font-semibold">
+          <div className="pt-2 flex flex-wrap gap-3 text-[11px] text-slate-300">
+            <span className="flex items-center gap-1 text-yellow-400 font-bold">
               <Check className="w-3.5 h-3.5" /> Free Laser Cable Routing
             </span>
-            <span className="flex items-center gap-1 text-emerald-400 font-semibold">
+            <span className="flex items-center gap-1 text-red-400 font-bold">
               <Check className="w-3.5 h-3.5" /> 3-Hr Thermal Video Proof
             </span>
-            <span className="flex items-center gap-1 text-emerald-400 font-semibold">
+            <span className="flex items-center gap-1 text-white font-bold">
               <Check className="w-3.5 h-3.5" /> 2-Year Full Hardware Warranty
             </span>
           </div>
@@ -281,7 +282,7 @@ export default function PCBuilderPage() {
           <button
             type="button"
             onClick={clearCustomBuild}
-            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold border border-slate-700 transition-colors"
+            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold border border-white/20 transition-colors"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Reset Build</span>
@@ -292,7 +293,7 @@ export default function PCBuilderPage() {
       {/* Progress & Power Bar */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Core Parts Progress */}
-        <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-4">
+        <div className="p-4 rounded-2xl bg-obsidian-900 border border-white/10 flex items-center justify-between gap-4">
           <div>
             <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">
               Core Components Progress
@@ -301,19 +302,19 @@ export default function PCBuilderPage() {
               {selectedRequiredCount} of {requiredSlotsCount} Required Parts Selected
             </div>
           </div>
-          <div className="w-36 bg-slate-800 h-2.5 rounded-full overflow-hidden border border-slate-700">
+          <div className="w-36 bg-black h-2.5 rounded-full overflow-hidden border border-white/15">
             <div
-              className="bg-gradient-to-r from-cyan-400 to-emerald-400 h-full rounded-full transition-all duration-500"
+              className="bg-gradient-to-r from-yellow-400 to-red-500 h-full rounded-full transition-all duration-500"
               style={{ width: `${(selectedRequiredCount / requiredSlotsCount) * 100}%` }}
             />
           </div>
         </div>
 
         {/* Live Power Consumption Meter */}
-        <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-4">
+        <div className="p-4 rounded-2xl bg-obsidian-900 border border-white/10 flex items-center justify-between gap-4">
           <div>
             <div className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-              <Gauge className="w-3.5 h-3.5 text-cyan-400" />
+              <Gauge className="w-3.5 h-3.5 text-yellow-400" />
               Estimated Peak Draw
             </div>
             <div className="text-sm font-black text-white mt-0.5 font-mono">
@@ -323,7 +324,7 @@ export default function PCBuilderPage() {
               </span>
             </div>
           </div>
-          <span className="px-3 py-1 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-xs font-bold font-mono">
+          <span className="px-3 py-1 rounded-xl bg-yellow-400/10 text-yellow-400 border border-yellow-400/30 text-xs font-black font-mono">
             {customBuild.psu ? `${customBuild.psu.compatibility?.wattage || 750}W Fitted` : "PSU Pending"}
           </span>
         </div>
@@ -333,8 +334,8 @@ export default function PCBuilderPage() {
         {/* Left Column: Interactive Component Slots List (5 cols) */}
         <div className="lg:col-span-5 space-y-3">
           <div className="flex items-center justify-between text-xs font-bold text-slate-400 px-1">
-            <span>CONFIGURATOR STEPS</span>
-            <span className="text-cyan-400">
+            <span>CONFIGURATOR SLOTS</span>
+            <span className="text-yellow-400 font-bold">
               {selectedRequiredCount} of {requiredSlotsCount} Core Selected
             </span>
           </div>
@@ -351,18 +352,18 @@ export default function PCBuilderPage() {
                   onClick={() => setActiveSlotKey(slot.key)}
                   className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
                     isActive
-                      ? "bg-slate-850 border-cyan-400 shadow-cyanHover scale-[1.01]"
+                      ? "bg-obsidian-850 border-yellow-400 shadow-yellowHover scale-[1.01]"
                       : selectedItem
-                      ? "bg-slate-900 border-slate-750 hover:border-slate-600"
-                      : "bg-slate-900/60 border-slate-800/80 hover:border-slate-700"
+                      ? "bg-obsidian-900 border-white/15 hover:border-white/30"
+                      : "bg-obsidian-900/60 border-white/5 hover:border-white/10"
                   }`}
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <div
                       className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 border ${
                         selectedItem
-                          ? "bg-cyan-500/10 border-cyan-500/30 text-cyan-400"
-                          : "bg-slate-800 border-slate-700 text-slate-400"
+                          ? "bg-yellow-400/10 border-yellow-400/30 text-yellow-400"
+                          : "bg-black border-white/10 text-slate-400"
                       }`}
                     >
                       <Icon className="w-4 h-4" />
@@ -370,11 +371,11 @@ export default function PCBuilderPage() {
 
                     <div className="min-w-0">
                       <div className="flex items-center gap-1.5">
-                        <span className="text-xs font-bold text-slate-300">
+                        <span className="text-xs font-bold text-slate-200">
                           {slot.name}
                         </span>
                         {slot.required && (
-                          <span className="text-[10px] text-coral font-bold">*</span>
+                          <span className="text-[10px] text-red-500 font-bold">*</span>
                         )}
                       </div>
                       {selectedItem ? (
@@ -383,7 +384,7 @@ export default function PCBuilderPage() {
                         </div>
                       ) : (
                         <div className="text-[11px] text-slate-500 italic">
-                          Click to select {slot.name}
+                          Click to choose {slot.name}
                         </div>
                       )}
                     </div>
@@ -392,7 +393,7 @@ export default function PCBuilderPage() {
                   <div className="flex items-center gap-2 shrink-0">
                     {selectedItem ? (
                       <div className="text-right">
-                        <div className="text-xs font-bold text-cyan-400 font-mono">
+                        <div className="text-xs font-bold text-yellow-400 font-mono">
                           {formatPKR(selectedItem.salePrice ?? selectedItem.price)}
                         </div>
                         <button
@@ -401,13 +402,13 @@ export default function PCBuilderPage() {
                             e.stopPropagation();
                             setCustomBuildPart(slot.key, undefined);
                           }}
-                          className="text-[10px] text-coral hover:underline flex items-center gap-0.5 justify-end font-semibold"
+                          className="text-[10px] text-red-500 hover:underline flex items-center gap-0.5 justify-end font-bold"
                         >
                           <Trash2 className="w-2.5 h-2.5" /> Remove
                         </button>
                       </div>
                     ) : (
-                      <span className="p-1.5 rounded-lg bg-slate-800 text-slate-400">
+                      <span className="p-1.5 rounded-lg bg-black text-slate-400">
                         <Plus className="w-3.5 h-3.5" />
                       </span>
                     )}
@@ -421,17 +422,17 @@ export default function PCBuilderPage() {
         {/* Right Column: Active Slot Candidate Picker & Live Compatibility Summary (7 cols) */}
         <div className="lg:col-span-7 space-y-6">
           {/* Active Slot Header & Component Selection */}
-          <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+          <div className="p-6 rounded-2xl bg-obsidian-900 border border-white/10 space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-wider">
-                  Currently Choosing
+                <span className="text-[10px] font-black text-yellow-400 uppercase tracking-wider">
+                  Currently Selecting
                 </span>
                 <h3 className="text-lg font-black text-white">
                   Available {activeSlot.name}
                 </h3>
               </div>
-              <span className="text-xs text-slate-400 font-semibold">
+              <span className="text-xs text-slate-400 font-bold">
                 {slotCandidates.length} options in stock
               </span>
             </div>
@@ -446,12 +447,12 @@ export default function PCBuilderPage() {
                     key={cand.id}
                     className={`p-4 rounded-xl border transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 ${
                       isSelected
-                        ? "bg-cyan-500/10 border-cyan-400 shadow-md"
-                        : "bg-slate-850 border-slate-750 hover:border-slate-600"
+                        ? "bg-yellow-400/10 border-yellow-400 shadow-md"
+                        : "bg-obsidian-850 border-white/10 hover:border-white/20"
                     }`}
                   >
                     <div className="flex items-center gap-3.5 min-w-0 flex-1">
-                      <div className="w-14 h-14 rounded-lg bg-slate-950 p-1 shrink-0 overflow-hidden border border-slate-700">
+                      <div className="w-14 h-14 rounded-lg bg-black p-1 shrink-0 overflow-hidden border border-white/10">
                         <img
                           src={cand.image}
                           alt={cand.name}
@@ -459,7 +460,7 @@ export default function PCBuilderPage() {
                         />
                       </div>
                       <div className="min-w-0">
-                        <div className="text-[11px] font-bold text-cyan-400 uppercase font-mono">
+                        <div className="text-[11px] font-black text-red-500 uppercase font-mono">
                           {cand.brand}
                         </div>
                         <h4 className="text-xs font-bold text-white truncate">
@@ -470,12 +471,12 @@ export default function PCBuilderPage() {
                         </p>
                         <div className="flex gap-2 text-[10px] text-slate-400 mt-1">
                           {cand.compatibility?.socket && (
-                            <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">
+                            <span className="px-2 py-0.5 rounded bg-black text-white font-mono border border-white/10">
                               Socket {cand.compatibility.socket}
                             </span>
                           )}
                           {cand.compatibility?.ramType && (
-                            <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">
+                            <span className="px-2 py-0.5 rounded bg-black text-white font-mono border border-white/10">
                               {cand.compatibility.ramType}
                             </span>
                           )}
@@ -484,19 +485,19 @@ export default function PCBuilderPage() {
                     </div>
 
                     <div className="flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto gap-2 shrink-0">
-                      <div className="text-sm font-black text-white font-mono">
+                      <div className="text-sm font-black text-yellow-400 font-mono">
                         {formatPKR(cand.salePrice ?? cand.price)}
                       </div>
                       <button
                         type="button"
                         onClick={() => setCustomBuildPart(activeSlotKey, cand)}
-                        className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                        className={`px-4 py-1.5 rounded-lg text-xs font-black transition-all ${
                           isSelected
-                            ? "bg-cyan-400 text-obsidian-950 font-black shadow-sm"
-                            : "bg-slate-800 hover:bg-cyan-400 hover:text-obsidian-950 text-slate-200 border border-slate-700"
+                            ? "bg-yellow-400 text-obsidian-950 shadow-sm"
+                            : "bg-white/10 hover:bg-yellow-400 hover:text-obsidian-950 text-white border border-white/15"
                         }`}
                       >
-                        {isSelected ? "Selected ✓" : "Select Part"}
+                        {isSelected ? "Selected ✓" : "Select"}
                       </button>
                     </div>
                   </div>
@@ -506,17 +507,17 @@ export default function PCBuilderPage() {
           </div>
 
           {/* Compatibility Engine Diagnostics */}
-          <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+          <div className="p-6 rounded-2xl bg-obsidian-900 border border-white/10 space-y-3">
             <div className="flex items-center justify-between text-xs font-bold">
               <span className="flex items-center gap-1.5 text-white">
-                <ShieldCheck className="w-4 h-4 text-cyan-400" />
+                <ShieldCheck className="w-4 h-4 text-yellow-400" />
                 Live Hardware Compatibility Check
               </span>
               <span
                 className={`px-2.5 py-0.5 rounded-md text-[10px] font-black uppercase ${
                   hasErrors
-                    ? "bg-coral/20 text-coral border border-coral/40"
-                    : "bg-emerald-500/20 text-emerald-400 border border-emerald-500/40"
+                    ? "bg-red-600 text-white"
+                    : "bg-yellow-400 text-black font-black"
                 }`}
               >
                 {hasErrors ? "Errors Detected" : "100% Compatible"}
@@ -530,16 +531,16 @@ export default function PCBuilderPage() {
                     key={idx}
                     className={`flex items-start gap-2 p-2.5 rounded-xl text-xs leading-snug ${
                       issue.type === "error"
-                        ? "bg-coral/10 border border-coral/30 text-coral"
+                        ? "bg-red-600/10 border border-red-500/30 text-red-300"
                         : issue.type === "warning"
-                        ? "bg-amber-500/10 border border-amber-500/30 text-amber-300"
-                        : "bg-emerald-500/10 border border-emerald-500/30 text-emerald-300"
+                        ? "bg-yellow-400/10 border border-yellow-400/30 text-yellow-300"
+                        : "bg-white/5 border border-white/15 text-white"
                     }`}
                   >
                     {issue.type === "error" ? (
-                      <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
+                      <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5 text-red-500" />
                     ) : (
-                      <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-yellow-400" />
                     )}
                     <span>{issue.text}</span>
                   </div>
@@ -553,14 +554,14 @@ export default function PCBuilderPage() {
           </div>
 
           {/* Running Total & Order Action Bar */}
-          <div className="p-6 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-850 border border-cyan-500/40 flex flex-col sm:flex-row items-center justify-between gap-5 shadow-card">
+          <div className="p-6 rounded-2xl bg-gradient-to-r from-obsidian-900 to-obsidian-850 border border-yellow-500/40 flex flex-col sm:flex-row items-center justify-between gap-5 shadow-card">
             <div>
-              <div className="text-xs text-slate-400 font-medium">Estimated Build Total</div>
-              <div className="text-2xl sm:text-3xl font-black text-white font-mono">
+              <div className="text-xs text-slate-300 font-bold uppercase tracking-wider">Estimated Build Total</div>
+              <div className="text-2xl sm:text-3xl font-black text-yellow-400 font-mono">
                 {formatPKR(customBuildTotal)}
               </div>
-              <div className="text-[11px] text-cyan-400 mt-0.5 font-medium">
-                Includes assembly, laser cable management &amp; 3h stress test
+              <div className="text-[11px] text-white/80 mt-0.5 font-medium">
+                Includes assembly, laser cable routing &amp; 3h FurMark testing
               </div>
             </div>
 
@@ -568,7 +569,7 @@ export default function PCBuilderPage() {
               type="button"
               onClick={handleAddBuildToCart}
               disabled={!isComplete || hasErrors}
-              className="btn-shimmer w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-500 hover:from-cyan-300 hover:to-cyan-400 disabled:opacity-40 disabled:hover:from-cyan-400 text-obsidian-950 font-black text-sm shadow-cyanHover transition-all flex items-center justify-center gap-2"
+              className="btn-shimmer w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-600 disabled:opacity-40 disabled:hover:from-red-600 text-white font-black text-sm shadow-redHover transition-all flex items-center justify-center gap-2"
             >
               <ShoppingCart className="w-4 h-4" />
               <span>Add Custom Build to Cart</span>

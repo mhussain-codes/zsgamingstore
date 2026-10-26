@@ -21,6 +21,8 @@ import {
   BatteryCharging,
   Box,
   Share2,
+  Flame,
+  MessageSquare,
 } from "lucide-react";
 import { useStore } from "@/context/StoreContext";
 import { formatPKR } from "@/utils/format";
@@ -57,11 +59,11 @@ export default function BuildDetailPage({ params }: BuildDetailProps) {
     <div className="max-w-7xl mx-auto px-4 sm:px-8 py-8 space-y-10">
       {/* Breadcrumb */}
       <nav className="text-xs text-slate-400 flex items-center gap-2">
-        <Link href="/" className="hover:text-cyan transition-colors">
+        <Link href="/" className="hover:text-yellow-400 transition-colors">
           Home
         </Link>
         <span>/</span>
-        <Link href="/builds" className="hover:text-cyan transition-colors">
+        <Link href="/builds" className="hover:text-yellow-400 transition-colors">
           Prebuilt Gaming PCs
         </Link>
         <span>/</span>
@@ -72,14 +74,15 @@ export default function BuildDetailPage({ params }: BuildDetailProps) {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
         {/* Left Gallery (7 cols) */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="rounded-2xl overflow-hidden bg-graphite-900 border border-graphite-800 aspect-[16/10] relative">
+          <div className="rounded-3xl overflow-hidden bg-obsidian-900 border border-white/10 aspect-[16/10] relative p-3">
             <img
               src={activeImage}
               alt={build.name}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain rounded-2xl"
             />
             {build.badge && (
-              <span className="absolute top-4 left-4 px-3 py-1 text-xs font-black uppercase rounded-lg bg-cyan text-graphite-950 shadow-md">
+              <span className="absolute top-6 left-6 px-3 py-1 text-xs font-black uppercase rounded-lg bg-red-600 text-white shadow-lg flex items-center gap-1">
+                <Flame className="w-3.5 h-3.5 text-yellow-300" />
                 {build.badge}
               </span>
             )}
@@ -94,7 +97,7 @@ export default function BuildDetailPage({ params }: BuildDetailProps) {
                   type="button"
                   onClick={() => setActiveImage(img)}
                   className={`w-20 h-16 rounded-xl overflow-hidden border-2 shrink-0 transition-all ${
-                    activeImage === img ? "border-cyan" : "border-graphite-800 opacity-60"
+                    activeImage === img ? "border-yellow-400" : "border-white/10 opacity-60"
                   }`}
                 >
                   <img src={img} alt="Thumbnail" className="w-full h-full object-cover" />
@@ -105,18 +108,18 @@ export default function BuildDetailPage({ params }: BuildDetailProps) {
 
           {/* FPS Gaming Benchmarks Table */}
           {build.fpsBenchmarks && build.fpsBenchmarks.length > 0 && (
-            <div className="mt-8 p-6 rounded-2xl bg-graphite-900 border border-graphite-800 space-y-4">
+            <div className="mt-8 p-6 rounded-2xl bg-obsidian-900 border border-white/10 space-y-4">
               <div className="flex items-center gap-2">
-                <Gauge className="w-5 h-5 text-cyan" />
+                <Gauge className="w-5 h-5 text-yellow-400" />
                 <h3 className="font-bold text-white text-base">
-                  Verified Real Gaming Framerates
+                  Verified Real Gaming Framerates (1080p / 1440p / 4K)
                 </h3>
               </div>
               <p className="text-xs text-slate-400">
-                Average FPS measured under actual gameplay at max settings with current GPU drivers.
+                Average FPS benchmarked under actual gameplay at Ultra settings in Pakistani ambient room temperatures.
               </p>
 
-              <div className="divide-y divide-graphite-800 border-t border-graphite-800">
+              <div className="divide-y divide-white/5 border-t border-white/10">
                 {build.fpsBenchmarks.map((bench, idx) => (
                   <div
                     key={idx}
@@ -127,10 +130,10 @@ export default function BuildDetailPage({ params }: BuildDetailProps) {
                       <div className="text-[11px] text-slate-400">{bench.settings}</div>
                     </div>
                     <div className="text-right">
-                      <div className="text-base font-black text-cyan font-mono">
+                      <div className="text-base font-black text-yellow-400 font-mono">
                         {bench.fps} FPS
                       </div>
-                      <div className="text-[10px] text-slate-500">{bench.resolution}</div>
+                      <div className="text-[10px] text-slate-400">{bench.resolution}</div>
                     </div>
                   </div>
                 ))}
@@ -143,11 +146,11 @@ export default function BuildDetailPage({ params }: BuildDetailProps) {
         <div className="lg:col-span-5 space-y-6">
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-cyan font-bold tracking-wider uppercase">
-                {build.tier.replace("-", " ")} Series
+              <span className="text-yellow-400 font-black tracking-wider uppercase">
+                {build.tier.replace("-", " ")} Series Rig
               </span>
-              <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+              <span className="flex items-center gap-1.5 text-emerald-400 font-bold bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/30">
+                <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
                 Assembled &bull; In Stock
               </span>
             </div>
@@ -162,9 +165,9 @@ export default function BuildDetailPage({ params }: BuildDetailProps) {
           </div>
 
           {/* Pricing Box */}
-          <div className="p-5 rounded-2xl bg-graphite-900 border border-graphite-800 space-y-4">
+          <div className="p-5 rounded-2xl bg-obsidian-900 border border-white/10 space-y-4">
             <div className="flex items-baseline gap-3">
-              <span className="text-3xl font-black text-white font-mono">
+              <span className="text-3xl font-black text-yellow-400 font-mono">
                 {formatPKR(build.salePrice ?? build.price)}
               </span>
               {build.salePrice && (
@@ -174,8 +177,8 @@ export default function BuildDetailPage({ params }: BuildDetailProps) {
               )}
             </div>
 
-            <div className="text-xs text-slate-400 flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-cyan" />
+            <div className="text-xs text-slate-300 flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-yellow-400" />
               <span>Includes {build.warrantyYears}-Year Comprehensive ZS Hardware Warranty</span>
             </div>
 
@@ -184,7 +187,7 @@ export default function BuildDetailPage({ params }: BuildDetailProps) {
               <button
                 type="button"
                 onClick={() => addToCart(build, 1, "prebuilt")}
-                className="w-full py-3.5 rounded-xl bg-cyan hover:bg-cyan-400 text-graphite-950 font-black text-sm shadow-cyanHover transition-all flex items-center justify-center gap-2"
+                className="btn-shimmer w-full py-4 rounded-xl bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-600 text-white font-black text-sm shadow-redHover transition-all flex items-center justify-center gap-2"
               >
                 <ShoppingCart className="w-4 h-4" />
                 <span>Add to Cart &bull; Ready to Ship</span>
@@ -196,12 +199,12 @@ export default function BuildDetailPage({ params }: BuildDetailProps) {
                   onClick={() => toggleWishlist(build.id)}
                   className={`py-2.5 rounded-xl border text-xs font-bold flex items-center justify-center gap-1.5 transition-colors ${
                     isWished
-                      ? "bg-coral/20 border-coral text-coral"
-                      : "bg-graphite-800 border-graphite-700 text-slate-300 hover:text-white"
+                      ? "bg-red-600 text-white border-red-500"
+                      : "bg-white/5 border-white/10 text-slate-200 hover:text-white"
                   }`}
                 >
-                  <Heart className={`w-3.5 h-3.5 ${isWished ? "fill-coral" : ""}`} />
-                  <span>{isWished ? "In Wishlist" : "Save Wishlist"}</span>
+                  <Heart className={`w-3.5 h-3.5 ${isWished ? "fill-white" : ""}`} />
+                  <span>{isWished ? "In Wishlist" : "Wishlist"}</span>
                 </button>
 
                 <button
@@ -209,8 +212,8 @@ export default function BuildDetailPage({ params }: BuildDetailProps) {
                   onClick={() => addToCompare(build)}
                   className={`py-2.5 rounded-xl border text-xs font-bold flex items-center justify-center gap-1.5 transition-colors ${
                     isCompared
-                      ? "bg-cyan/20 border-cyan text-cyan"
-                      : "bg-graphite-800 border-graphite-700 text-slate-300 hover:text-white"
+                      ? "bg-yellow-400 text-obsidian-950 border-yellow-400 font-black"
+                      : "bg-white/5 border-white/10 text-slate-200 hover:text-white"
                   }`}
                 >
                   <Scale className="w-3.5 h-3.5" />
@@ -218,74 +221,86 @@ export default function BuildDetailPage({ params }: BuildDetailProps) {
                 </button>
               </div>
             </div>
+
+            <div className="pt-2 border-t border-white/10 text-[11px] text-slate-300 space-y-1.5">
+              <div className="flex items-center gap-2">
+                <Truck className="w-3.5 h-3.5 text-yellow-400" />
+                <span>Free Insured TCS Courier across Pakistan (2-4 business days)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Wrench className="w-3.5 h-3.5 text-yellow-400" />
+                <span>3-Hour FurMark thermal stress test video proof sent to WhatsApp</span>
+              </div>
+            </div>
           </div>
 
-          {/* Delivery & Testing Highlights */}
-          <div className="p-4 rounded-xl bg-graphite-900/60 border border-graphite-800 text-xs space-y-2.5">
-            <div className="flex items-center gap-2 text-slate-300">
-              <Truck className="w-4 h-4 text-cyan shrink-0" />
-              <span>Insured TCS Express shipping to Karachi, Islamabad, Lahore &amp; all cities.</span>
-            </div>
-            <div className="flex items-center gap-2 text-slate-300">
-              <Wrench className="w-4 h-4 text-cyan shrink-0" />
-              <span>24h burn-in stress test report included in package.</span>
-            </div>
-          </div>
+          {/* System Component Specs Breakdown */}
+          <div className="p-6 rounded-2xl bg-obsidian-900 border border-white/10 space-y-4">
+            <h3 className="font-bold text-white text-base">Included Rig Hardware</h3>
 
-          {/* Full Specifications Table */}
-          <div className="space-y-3">
-            <h3 className="font-bold text-white text-sm uppercase tracking-wider">
-              Included Component Specs
-            </h3>
+            <div className="space-y-3 text-xs">
+              <div className="flex items-center gap-3 p-2.5 rounded-xl bg-black/60 border border-white/5">
+                <CircuitBoard className="w-4 h-4 text-red-500 shrink-0" />
+                <div>
+                  <div className="text-[10px] text-slate-400 uppercase font-bold">Graphics Card</div>
+                  <div className="font-bold text-white">{build.specs.gpu}</div>
+                </div>
+              </div>
 
-            <div className="rounded-2xl bg-graphite-900 border border-graphite-800 divide-y divide-graphite-800 text-xs">
-              <div className="p-3 flex items-start justify-between gap-4">
-                <span className="text-slate-400 shrink-0 font-medium flex items-center gap-1.5">
-                  <Cpu className="w-3.5 h-3.5 text-cyan" /> Processor
-                </span>
-                <span className="text-white font-bold text-right">{build.specs.cpu}</span>
+              <div className="flex items-center gap-3 p-2.5 rounded-xl bg-black/60 border border-white/5">
+                <Cpu className="w-4 h-4 text-yellow-400 shrink-0" />
+                <div>
+                  <div className="text-[10px] text-slate-400 uppercase font-bold">Processor</div>
+                  <div className="font-bold text-white">{build.specs.cpu}</div>
+                </div>
               </div>
-              <div className="p-3 flex items-start justify-between gap-4">
-                <span className="text-slate-400 shrink-0 font-medium flex items-center gap-1.5">
-                  <CircuitBoard className="w-3.5 h-3.5 text-cyan" /> Graphics Card
-                </span>
-                <span className="text-white font-bold text-right">{build.specs.gpu}</span>
+
+              <div className="flex items-center gap-3 p-2.5 rounded-xl bg-black/60 border border-white/5">
+                <Layers className="w-4 h-4 text-white shrink-0" />
+                <div>
+                  <div className="text-[10px] text-slate-400 uppercase font-bold">Motherboard</div>
+                  <div className="font-bold text-white">{build.specs.motherboard}</div>
+                </div>
               </div>
-              <div className="p-3 flex items-start justify-between gap-4">
-                <span className="text-slate-400 shrink-0 font-medium flex items-center gap-1.5">
-                  <Layers className="w-3.5 h-3.5 text-cyan" /> Motherboard
-                </span>
-                <span className="text-white font-bold text-right">{build.specs.motherboard}</span>
+
+              <div className="flex items-center gap-3 p-2.5 rounded-xl bg-black/60 border border-white/5">
+                <Zap className="w-4 h-4 text-yellow-400 shrink-0" />
+                <div>
+                  <div className="text-[10px] text-slate-400 uppercase font-bold">RAM</div>
+                  <div className="font-bold text-white">{build.specs.ram}</div>
+                </div>
               </div>
-              <div className="p-3 flex items-start justify-between gap-4">
-                <span className="text-slate-400 shrink-0 font-medium flex items-center gap-1.5">
-                  <Zap className="w-3.5 h-3.5 text-cyan" /> Memory (RAM)
-                </span>
-                <span className="text-white font-bold text-right">{build.specs.ram}</span>
+
+              <div className="flex items-center gap-3 p-2.5 rounded-xl bg-black/60 border border-white/5">
+                <HardDrive className="w-4 h-4 text-red-500 shrink-0" />
+                <div>
+                  <div className="text-[10px] text-slate-400 uppercase font-bold">Storage</div>
+                  <div className="font-bold text-white">{build.specs.storage}</div>
+                </div>
               </div>
-              <div className="p-3 flex items-start justify-between gap-4">
-                <span className="text-slate-400 shrink-0 font-medium flex items-center gap-1.5">
-                  <HardDrive className="w-3.5 h-3.5 text-cyan" /> Primary Storage
-                </span>
-                <span className="text-white font-bold text-right">{build.specs.storage}</span>
+
+              <div className="flex items-center gap-3 p-2.5 rounded-xl bg-black/60 border border-white/5">
+                <Fan className="w-4 h-4 text-white shrink-0" />
+                <div>
+                  <div className="text-[10px] text-slate-400 uppercase font-bold">Cooling Solution</div>
+                  <div className="font-bold text-white">{build.specs.cooler}</div>
+                </div>
               </div>
-              <div className="p-3 flex items-start justify-between gap-4">
-                <span className="text-slate-400 shrink-0 font-medium flex items-center gap-1.5">
-                  <Fan className="w-3.5 h-3.5 text-cyan" /> CPU Cooler
-                </span>
-                <span className="text-white font-bold text-right">{build.specs.cooler}</span>
+
+              <div className="flex items-center gap-3 p-2.5 rounded-xl bg-black/60 border border-white/5">
+                <BatteryCharging className="w-4 h-4 text-red-500 shrink-0" />
+                <div>
+                  <div className="text-[10px] text-slate-400 uppercase font-bold">Power Supply</div>
+                  <div className="font-bold text-white">{build.specs.psu}</div>
+                </div>
               </div>
-              <div className="p-3 flex items-start justify-between gap-4">
-                <span className="text-slate-400 shrink-0 font-medium flex items-center gap-1.5">
-                  <BatteryCharging className="w-3.5 h-3.5 text-cyan" /> Power Supply
-                </span>
-                <span className="text-white font-bold text-right">{build.specs.psu}</span>
-              </div>
-              <div className="p-3 flex items-start justify-between gap-4">
-                <span className="text-slate-400 shrink-0 font-medium flex items-center gap-1.5">
-                  <Box className="w-3.5 h-3.5 text-cyan" /> Case / Chassis
-                </span>
-                <span className="text-white font-bold text-right">{build.specs.case}</span>
+
+              <div className="flex items-center gap-3 p-2.5 rounded-xl bg-black/60 border border-white/5">
+                <Box className="w-4 h-4 text-yellow-400 shrink-0" />
+                <div>
+                  <div className="text-[10px] text-slate-400 uppercase font-bold">Chassis</div>
+                  <div className="font-bold text-white">{build.specs.case}</div>
+                </div>
               </div>
             </div>
           </div>

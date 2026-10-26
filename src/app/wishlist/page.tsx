@@ -19,7 +19,7 @@ export default function WishlistPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-8 py-10 space-y-8">
       {/* Breadcrumb */}
       <nav className="text-xs text-slate-400 flex items-center gap-2">
-        <Link href="/" className="hover:text-cyan transition-colors">
+        <Link href="/" className="hover:text-yellow-400 transition-colors">
           Home
         </Link>
         <span>/</span>
@@ -29,8 +29,8 @@ export default function WishlistPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-1.5 text-coral text-xs font-bold uppercase tracking-wider mb-1">
-            <Heart className="w-4 h-4 fill-coral" />
+          <div className="inline-flex items-center gap-1.5 text-red-500 text-xs font-bold uppercase tracking-wider mb-1">
+            <Heart className="w-4 h-4 fill-red-500" />
             <span>Saved Hardware</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
@@ -52,13 +52,13 @@ export default function WishlistPage() {
           <div className="flex justify-center gap-3 pt-2">
             <Link
               href="/builds"
-              className="px-4 py-2 rounded-xl bg-cyan text-graphite-950 text-xs font-bold"
+              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-red-500 text-white text-xs font-bold hover:from-red-500 hover:to-red-400 shadow-redHover transition-colors"
             >
               Browse Gaming PCs
             </Link>
             <Link
               href="/category/graphics-cards"
-              className="px-4 py-2 rounded-xl bg-graphite-800 text-white text-xs font-bold border border-graphite-700"
+              className="px-5 py-2.5 rounded-xl bg-yellow-400 text-graphite-950 text-xs font-black hover:bg-yellow-300 transition-colors"
             >
               Browse Components
             </Link>
@@ -68,7 +68,8 @@ export default function WishlistPage() {
         <div className="space-y-10">
           {savedBuilds.length > 0 && (
             <div className="space-y-4">
-              <h2 className="text-base font-bold text-white uppercase tracking-wider">
+              <h2 className="text-base font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-red-600"></span>
                 Saved Prebuilt PCs ({savedBuilds.length})
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -81,7 +82,8 @@ export default function WishlistPage() {
 
           {savedProducts.length > 0 && (
             <div className="space-y-4">
-              <h2 className="text-base font-bold text-white uppercase tracking-wider">
+              <h2 className="text-base font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-yellow-400"></span>
                 Saved Components ({savedProducts.length})
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

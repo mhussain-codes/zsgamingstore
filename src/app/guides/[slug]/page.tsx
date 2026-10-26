@@ -31,11 +31,11 @@ export default function GuideDetailPage({ params }: GuideDetailProps) {
       {/* Breadcrumb */}
       <nav className="text-xs text-slate-400 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Link href="/" className="hover:text-cyan transition-colors">
+          <Link href="/" className="hover:text-yellow-400 transition-colors">
             Home
           </Link>
           <span>/</span>
-          <Link href="/guides" className="hover:text-cyan transition-colors">
+          <Link href="/guides" className="hover:text-yellow-400 transition-colors">
             Guides
           </Link>
           <span>/</span>
@@ -47,7 +47,7 @@ export default function GuideDetailPage({ params }: GuideDetailProps) {
           onClick={handleShare}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-graphite-900 border border-graphite-800 text-slate-300 hover:text-white text-xs font-semibold"
         >
-          <Share2 className="w-3.5 h-3.5 text-cyan" />
+          <Share2 className="w-3.5 h-3.5 text-yellow-400" />
           <span>Share</span>
         </button>
       </nav>
@@ -55,15 +55,15 @@ export default function GuideDetailPage({ params }: GuideDetailProps) {
       {/* Guide Header */}
       <div className="space-y-4">
         <div className="flex flex-wrap items-center gap-3 text-xs text-slate-400">
-          <span className="px-2.5 py-0.5 rounded-full bg-cyan/10 border border-cyan/30 text-cyan font-bold">
+          <span className="px-2.5 py-0.5 rounded-full bg-yellow-400/10 border border-yellow-400/30 text-yellow-400 font-bold">
             {guide.category}
           </span>
           <span className="flex items-center gap-1">
-            <Calendar className="w-3.5 h-3.5 text-cyan" /> {guide.date}
+            <Calendar className="w-3.5 h-3.5 text-red-500" /> {guide.date}
           </span>
           <span>&bull;</span>
           <span className="flex items-center gap-1">
-            <Clock className="w-3.5 h-3.5 text-cyan" /> {guide.readTime}
+            <Clock className="w-3.5 h-3.5 text-yellow-400" /> {guide.readTime}
           </span>
         </div>
 
@@ -72,13 +72,13 @@ export default function GuideDetailPage({ params }: GuideDetailProps) {
         </h1>
 
         <div className="flex items-center gap-2 text-xs text-slate-400 pt-1">
-          <User className="w-4 h-4 text-cyan" />
+          <User className="w-4 h-4 text-yellow-400" />
           <span className="text-white font-bold">{guide.author}</span>
         </div>
       </div>
 
       {/* Featured Banner Image */}
-      <div className="rounded-2xl overflow-hidden bg-graphite-900 border border-graphite-800 aspect-video">
+      <div className="rounded-2xl overflow-hidden bg-graphite-900 border border-graphite-800 aspect-video shadow-xl">
         <img
           src={guide.image}
           alt={guide.title}
@@ -88,11 +88,11 @@ export default function GuideDetailPage({ params }: GuideDetailProps) {
 
       {/* Guide Content */}
       <article className="prose prose-invert max-w-none text-slate-300 leading-relaxed space-y-6 text-sm">
-        <div className="p-4 rounded-xl bg-graphite-900 border-l-4 border-cyan text-xs text-slate-300 italic">
+        <div className="p-4 rounded-xl bg-graphite-900 border-l-4 border-yellow-400 text-xs text-slate-300 italic shadow-md">
           {guide.excerpt}
         </div>
 
-        <div className="whitespace-pre-line text-xs sm:text-sm leading-relaxed">
+        <div className="whitespace-pre-line text-xs sm:text-sm leading-relaxed text-slate-200">
           {guide.content}
         </div>
       </article>
@@ -104,7 +104,7 @@ export default function GuideDetailPage({ params }: GuideDetailProps) {
           {guide.tags.map((tag) => (
             <span
               key={tag}
-              className="px-2.5 py-1 rounded-lg bg-graphite-900 border border-graphite-800 text-[11px] text-cyan font-semibold"
+              className="px-2.5 py-1 rounded-lg bg-graphite-900 border border-graphite-800 text-[11px] text-yellow-400 font-semibold"
             >
               #{tag}
             </span>
@@ -113,21 +113,21 @@ export default function GuideDetailPage({ params }: GuideDetailProps) {
       )}
 
       {/* Configurator CTA */}
-      <div className="p-8 rounded-3xl bg-gradient-to-r from-graphite-900 to-graphite-850 border border-cyan/30 flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div className="p-8 rounded-3xl bg-gradient-to-r from-graphite-900 to-graphite-850 border border-yellow-400/30 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl relative overflow-hidden">
         <div className="space-y-1">
           <h3 className="text-base font-bold text-white">
-            Ready to apply these recommendations?
+            Ready to configure your custom battle station?
           </h3>
           <p className="text-xs text-slate-400">
-            Configure your custom PC parts list with real-time socket and wattage checking.
+            Select parts with real-time socket matching, DDR4/DDR5 compatibility, and wattage calculation.
           </p>
         </div>
         <Link
           href="/pc-builder"
-          className="px-5 py-3 rounded-xl bg-cyan hover:bg-cyan-400 text-graphite-950 font-black text-xs shadow-cyanHover transition-all shrink-0 flex items-center gap-1.5"
+          className="px-5 py-3 rounded-xl bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-black text-xs shadow-redHover transition-all shrink-0 flex items-center gap-2 active:scale-95"
         >
-          <Wrench className="w-3.5 h-3.5" />
-          <span>Open PC Builder</span>
+          <Wrench className="w-4 h-4 text-yellow-400" />
+          <span>Launch PC Builder</span>
         </Link>
       </div>
     </div>

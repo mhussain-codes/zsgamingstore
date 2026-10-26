@@ -39,14 +39,14 @@ export const PCBuildCard: React.FC<PCBuildCardProps> = ({ build }) => {
   const topBenchmark = build.fpsBenchmarks?.[0];
 
   const tierColors = {
-    budget: "text-emerald-400 bg-emerald-500/10 border-emerald-500/30",
-    "mid-range": "text-cyan-400 bg-cyan-500/10 border-cyan-500/30",
-    enthusiast: "text-purple-400 bg-purple-500/10 border-purple-500/30",
-    extreme: "text-amber-400 bg-amber-500/10 border-amber-500/30",
+    budget: "text-white bg-white/10 border-white/30",
+    "mid-range": "text-yellow-400 bg-yellow-500/10 border-yellow-500/30",
+    enthusiast: "text-red-400 bg-red-500/10 border-red-500/30",
+    extreme: "text-yellow-300 bg-red-600/30 border-red-500",
   }[build.tier];
 
   return (
-    <div className="group relative bg-slate-900/90 border border-slate-800/90 hover:border-cyan-500/50 rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:shadow-cardHover hover:-translate-y-2 backdrop-blur-sm">
+    <div className="group relative bg-obsidian-900 border border-white/10 hover:border-yellow-400/60 rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:shadow-cardHover hover:-translate-y-2 backdrop-blur-sm">
       {/* Top Media & Tags */}
       <div className="relative">
         <div className="absolute top-2.5 left-2.5 z-10 flex flex-col gap-1.5 items-start">
@@ -56,8 +56,8 @@ export const PCBuildCard: React.FC<PCBuildCardProps> = ({ build }) => {
             {build.tier.replace("-", " ")}
           </span>
           {build.badge && (
-            <span className="px-2.5 py-0.5 text-[9px] font-black uppercase tracking-wider rounded-md bg-coral text-white shadow-md flex items-center gap-1">
-              <Flame className="w-2.5 h-2.5" />
+            <span className="px-2.5 py-0.5 text-[9px] font-black uppercase tracking-wider rounded-md bg-red-600 text-white shadow-md flex items-center gap-1">
+              <Flame className="w-2.5 h-2.5 text-yellow-300" />
               {build.badge}
             </span>
           )}
@@ -74,8 +74,8 @@ export const PCBuildCard: React.FC<PCBuildCardProps> = ({ build }) => {
             title={isWished ? "Remove from wishlist" : "Add to wishlist"}
             className={`p-2 rounded-xl backdrop-blur-md transition-all ${
               isWished
-                ? "bg-coral text-white scale-110"
-                : "bg-slate-950/70 text-slate-300 hover:text-white hover:bg-slate-800"
+                ? "bg-red-600 text-white scale-110"
+                : "bg-black/80 text-slate-300 hover:text-white hover:bg-black"
             }`}
             aria-label="Wishlist toggle"
           >
@@ -90,8 +90,8 @@ export const PCBuildCard: React.FC<PCBuildCardProps> = ({ build }) => {
             title={isCompared ? "In comparison" : "Add to comparison"}
             className={`p-2 rounded-xl backdrop-blur-md transition-all ${
               isCompared
-                ? "bg-cyan-400 text-obsidian-950 scale-110"
-                : "bg-slate-950/70 text-slate-300 hover:text-white hover:bg-slate-800"
+                ? "bg-yellow-400 text-black scale-110"
+                : "bg-black/80 text-slate-300 hover:text-white hover:bg-black"
             }`}
             aria-label="Compare toggle"
           >
@@ -102,7 +102,7 @@ export const PCBuildCard: React.FC<PCBuildCardProps> = ({ build }) => {
         {/* Visual Image */}
         <Link
           href={`/builds/${build.slug}`}
-          className="block rounded-xl overflow-hidden bg-slate-950/70 p-3 group-hover:scale-[1.02] transition-transform duration-300"
+          className="block rounded-xl overflow-hidden bg-black/60 p-3 group-hover:scale-[1.02] transition-transform duration-300 border border-white/5"
         >
           <SafeImage
             src={build.image}
@@ -114,12 +114,12 @@ export const PCBuildCard: React.FC<PCBuildCardProps> = ({ build }) => {
 
         {/* FPS Benchmark Pill Badge */}
         {topBenchmark && (
-          <div className="mt-2.5 flex items-center justify-between px-3 py-1.5 rounded-xl bg-slate-950/80 border border-slate-800 text-[11px] text-slate-300">
-            <span className="flex items-center gap-1.5 text-slate-400">
-              <Gauge className="w-3.5 h-3.5 text-cyan-400" />
+          <div className="mt-2.5 flex items-center justify-between px-3 py-1.5 rounded-xl bg-black/80 border border-white/10 text-[11px] text-white">
+            <span className="flex items-center gap-1.5 text-slate-300">
+              <Gauge className="w-3.5 h-3.5 text-yellow-400" />
               {topBenchmark.game} ({topBenchmark.resolution})
             </span>
-            <span className="font-mono font-black text-emerald-400">
+            <span className="font-mono font-black text-yellow-400">
               {topBenchmark.fps} FPS
             </span>
           </div>
@@ -131,7 +131,7 @@ export const PCBuildCard: React.FC<PCBuildCardProps> = ({ build }) => {
         <div>
           <Link
             href={`/builds/${build.slug}`}
-            className="block text-base font-black text-white hover:text-cyan-400 transition-colors"
+            className="block text-base font-black text-white hover:text-yellow-400 transition-colors"
           >
             {build.name}
           </Link>
@@ -140,38 +140,38 @@ export const PCBuildCard: React.FC<PCBuildCardProps> = ({ build }) => {
           </p>
 
           {/* Key Spec Grid */}
-          <div className="mt-3.5 grid grid-cols-2 gap-2 text-[11px] bg-slate-950/60 p-2.5 rounded-xl border border-slate-800/80">
-            <div className="flex items-center gap-1.5 text-slate-300 truncate">
-              <CircuitBoard className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+          <div className="mt-3.5 grid grid-cols-2 gap-2 text-[11px] bg-black/60 p-2.5 rounded-xl border border-white/5">
+            <div className="flex items-center gap-1.5 text-slate-200 truncate">
+              <CircuitBoard className="w-3.5 h-3.5 text-red-500 shrink-0" />
               <span className="truncate">{build.specs.gpu}</span>
             </div>
-            <div className="flex items-center gap-1.5 text-slate-300 truncate">
-              <Cpu className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+            <div className="flex items-center gap-1.5 text-slate-200 truncate">
+              <Cpu className="w-3.5 h-3.5 text-yellow-400 shrink-0" />
               <span className="truncate">{build.specs.cpu}</span>
             </div>
-            <div className="flex items-center gap-1.5 text-slate-300 truncate">
-              <Zap className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+            <div className="flex items-center gap-1.5 text-slate-200 truncate">
+              <Zap className="w-3.5 h-3.5 text-yellow-400 shrink-0" />
               <span className="truncate">{build.specs.ram}</span>
             </div>
-            <div className="flex items-center gap-1.5 text-slate-300 truncate">
-              <HardDrive className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+            <div className="flex items-center gap-1.5 text-slate-200 truncate">
+              <HardDrive className="w-3.5 h-3.5 text-red-500 shrink-0" />
               <span className="truncate">{build.specs.storage}</span>
             </div>
           </div>
 
-          <div className="mt-2.5 flex items-center justify-between text-[11px] text-slate-400">
-            <span className="flex items-center gap-1 text-emerald-400">
+          <div className="mt-2.5 flex items-center justify-between text-[11px]">
+            <span className="flex items-center gap-1 text-yellow-400 font-semibold">
               <ShieldCheck className="w-3.5 h-3.5" />
               3-Yr Hardware Warranty
             </span>
-            <span className="text-[10px] text-slate-400 font-medium">
-              Tested &amp; Benchmarked
+            <span className="text-[10px] text-white/80 font-bold bg-red-600/20 px-2 py-0.5 rounded border border-red-500/30">
+              FurMark Tested
             </span>
           </div>
         </div>
 
         {/* Pricing and Action CTAs */}
-        <div className="mt-4 pt-3.5 border-t border-slate-800/80 flex items-center justify-between gap-3">
+        <div className="mt-4 pt-3.5 border-t border-white/10 flex items-center justify-between gap-3">
           <div className="flex flex-col">
             <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
               Complete Rig Price
@@ -184,10 +184,10 @@ export const PCBuildCard: React.FC<PCBuildCardProps> = ({ build }) => {
           <div className="flex items-center gap-2">
             <Link
               href={`/builds/${build.slug}`}
-              className="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors text-xs font-bold"
+              className="p-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors text-xs font-bold"
               title="View system breakdown"
             >
-              Details
+              Specs
             </Link>
             <button
               type="button"
@@ -195,9 +195,9 @@ export const PCBuildCard: React.FC<PCBuildCardProps> = ({ build }) => {
                 e.preventDefault();
                 addToCart(build, 1);
               }}
-              className="px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-500 hover:from-cyan-300 hover:to-cyan-400 text-obsidian-950 font-black text-xs transition-all hover:scale-105 active:scale-95 shadow-md flex items-center gap-1.5"
+              className="px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-600 text-white font-black text-xs transition-all hover:scale-105 active:scale-95 shadow-md flex items-center gap-1.5"
             >
-              <ShoppingCart className="w-3.5 h-3.5 text-obsidian-950" />
+              <ShoppingCart className="w-3.5 h-3.5 text-white" />
               Order Rig
             </button>
           </div>

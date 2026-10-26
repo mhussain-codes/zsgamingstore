@@ -173,15 +173,15 @@ export const ChatbotWidget = () => {
           type="button"
           onClick={() => setIsOpen(!isOpen)}
           title="Open AI PC Specialist"
-          className="relative p-3.5 rounded-2xl bg-gradient-to-r from-cyan-400 to-cyan-500 hover:from-cyan-300 hover:to-cyan-400 text-obsidian-950 shadow-cyanHover transition-all hover:scale-110 active:scale-95 flex items-center gap-2"
+          className="relative p-3.5 rounded-2xl bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-300 hover:to-yellow-400 text-graphite-950 shadow-yellowHover transition-all hover:scale-110 active:scale-95 flex items-center gap-2"
         >
           {isOpen ? (
-            <X className="w-5 h-5 text-obsidian-950" />
+            <X className="w-5 h-5 text-graphite-950 font-black" />
           ) : (
             <>
-              <Bot className="w-5 h-5 text-obsidian-950" />
+              <Bot className="w-5 h-5 text-graphite-950" />
               <span className="hidden sm:inline text-xs font-black">AI Tech Help</span>
-              <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-emerald-400 live-pulse"></span>
+              <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-red-600 live-pulse"></span>
             </>
           )}
         </button>
@@ -189,17 +189,17 @@ export const ChatbotWidget = () => {
 
       {/* Floating Chat Window Modal */}
       {isOpen && (
-        <div className="w-[92vw] sm:w-[410px] h-[550px] max-h-[80vh] rounded-3xl bg-slate-900 border border-slate-700/80 shadow-2xl flex flex-col overflow-hidden animate-fadeIn backdrop-blur-xl">
+        <div className="w-[92vw] sm:w-[410px] h-[550px] max-h-[80vh] rounded-3xl bg-graphite-900 border border-graphite-750 shadow-2xl flex flex-col overflow-hidden animate-fadeIn backdrop-blur-xl">
           {/* Header */}
-          <div className="p-3.5 bg-slate-950/90 border-b border-slate-800 flex items-center justify-between">
+          <div className="p-3.5 bg-graphite-950 border-b border-graphite-800 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-cyan-400 to-emerald-400 flex items-center justify-center shadow">
-                <Bot className="w-4 h-4 text-obsidian-950" />
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-yellow-400 to-red-500 flex items-center justify-center shadow">
+                <Bot className="w-4 h-4 text-graphite-950" />
               </div>
               <div>
                 <div className="text-xs font-black text-white flex items-center gap-1.5">
                   <span>ZS Tech Specialist</span>
-                  <span className="px-1.5 py-0.2 rounded bg-cyan-500/10 text-cyan-400 text-[9px] font-bold border border-cyan-500/30">
+                  <span className="px-1.5 py-0.2 rounded bg-yellow-400/10 text-yellow-400 text-[9px] font-bold border border-yellow-400/30">
                     AI Assistant
                   </span>
                 </div>
@@ -215,7 +215,7 @@ export const ChatbotWidget = () => {
                 type="button"
                 onClick={handleReset}
                 title="Reset conversation"
-                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-graphite-800 transition-colors"
               >
                 <RotateCcw className="w-4 h-4" />
               </button>
@@ -223,7 +223,7 @@ export const ChatbotWidget = () => {
                 type="button"
                 onClick={() => setIsOpen(false)}
                 title="Close chat"
-                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-graphite-800 transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -232,14 +232,14 @@ export const ChatbotWidget = () => {
 
           {/* Mode Notice Pill */}
           {isDemoFallback && (
-            <div className="bg-slate-950/80 border-b border-slate-800/80 px-3.5 py-1.5 text-[10px] text-slate-400 flex items-center justify-between">
+            <div className="bg-graphite-950/80 border-b border-graphite-800 px-3.5 py-1.5 text-[10px] text-slate-400 flex items-center justify-between">
               <span className="flex items-center gap-1">
-                <Info className="w-3 h-3 text-amber-400 shrink-0" />
+                <Info className="w-3 h-3 text-yellow-400 shrink-0" />
                 Store Knowledge Assistant (Offline Fallback)
               </span>
               <Link
                 href="/admin"
-                className="text-cyan-400 hover:underline font-semibold"
+                className="text-yellow-400 hover:underline font-semibold"
               >
                 Config &rarr;
               </Link>
@@ -256,31 +256,30 @@ export const ChatbotWidget = () => {
                 }`}
               >
                 {msg.role === "assistant" && (
-                  <div className="w-6 h-6 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center shrink-0 mt-0.5">
-                    <Bot className="w-3.5 h-3.5 text-cyan-400" />
+                  <div className="w-6 h-6 rounded-lg bg-graphite-800 border border-graphite-700 flex items-center justify-center shrink-0 mt-0.5">
+                    <Bot className="w-3.5 h-3.5 text-yellow-400" />
                   </div>
                 )}
 
                 <div
                   className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed ${
                     msg.role === "user"
-                      ? "bg-gradient-to-r from-cyan-400 to-cyan-500 text-obsidian-950 font-bold rounded-br-sm shadow"
-                      : "bg-slate-950 border border-slate-800 text-slate-200 rounded-bl-sm"
+                      ? "bg-gradient-to-r from-red-600 to-red-500 text-white font-bold rounded-br-sm shadow"
+                      : "bg-graphite-950 border border-graphite-800 text-slate-200 rounded-bl-sm"
                   }`}
                 >
                   <div className="whitespace-pre-wrap">{msg.content}</div>
 
                   {/* Suggested Action Chips */}
                   {msg.suggestedActions && msg.suggestedActions.length > 0 && (
-                    <div className="mt-2.5 pt-2 border-t border-slate-800 flex flex-wrap gap-1.5">
+                    <div className="mt-2.5 pt-2 border-t border-graphite-800 flex flex-wrap gap-1.5">
                       {msg.suggestedActions.map((action, idx) => {
                         if (action.href) {
                           return (
                             <Link
                               key={idx}
                               href={action.href}
-                              onClick={() => setIsOpen(false)}
-                              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-850 hover:bg-slate-800 text-cyan-400 text-[10px] font-semibold transition-colors border border-cyan-500/20"
+                              className="px-2.5 py-1 rounded-lg bg-graphite-900 hover:bg-yellow-400 hover:text-graphite-950 text-slate-300 border border-graphite-750 text-[10px] font-semibold transition-all flex items-center gap-1"
                             >
                               <span>{action.label}</span>
                               <ExternalLink className="w-2.5 h-2.5" />
@@ -291,8 +290,8 @@ export const ChatbotWidget = () => {
                           <button
                             key={idx}
                             type="button"
-                            onClick={() => handleSend(action.query || action.label)}
-                            className="px-2.5 py-1 rounded-lg bg-slate-850 hover:bg-slate-800 text-slate-300 hover:text-white text-[10px] transition-colors border border-slate-750 text-left font-medium"
+                            onClick={() => handleSend(action.query)}
+                            className="px-2.5 py-1 rounded-lg bg-graphite-900 hover:bg-yellow-400 hover:text-graphite-950 text-yellow-400 border border-yellow-400/20 text-[10px] font-semibold transition-all text-left"
                           >
                             {action.label}
                           </button>
@@ -300,19 +299,11 @@ export const ChatbotWidget = () => {
                       })}
                     </div>
                   )}
-
-                  <div
-                    className={`text-[9px] mt-1 text-right ${
-                      msg.role === "user" ? "text-obsidian-900" : "text-slate-500"
-                    }`}
-                  >
-                    {msg.timestamp}
-                  </div>
                 </div>
 
                 {msg.role === "user" && (
-                  <div className="w-6 h-6 rounded-lg bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center shrink-0 mt-0.5">
-                    <User className="w-3.5 h-3.5 text-cyan-400" />
+                  <div className="w-6 h-6 rounded-lg bg-red-600/20 border border-red-600/40 flex items-center justify-center shrink-0 mt-0.5">
+                    <User className="w-3.5 h-3.5 text-red-500" />
                   </div>
                 )}
               </div>
@@ -320,13 +311,13 @@ export const ChatbotWidget = () => {
 
             {isLoading && (
               <div className="flex gap-2.5 items-center">
-                <div className="w-6 h-6 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center shrink-0">
-                  <Bot className="w-3.5 h-3.5 text-cyan-400" />
+                <div className="w-6 h-6 rounded-lg bg-graphite-800 border border-graphite-700 flex items-center justify-center shrink-0">
+                  <Bot className="w-3.5 h-3.5 text-yellow-400" />
                 </div>
-                <div className="bg-slate-950 border border-slate-800 rounded-2xl px-3 py-2 text-xs text-slate-400 flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-bounce" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-bounce [animation-delay:0.2s]" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-bounce [animation-delay:0.4s]" />
+                <div className="bg-graphite-950 border border-graphite-800 rounded-2xl px-3 py-2 text-xs text-slate-400 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-bounce" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-bounce [animation-delay:0.2s]" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-bounce [animation-delay:0.4s]" />
                   <span className="text-[11px] ml-1">Checking store stock &amp; benchmarks...</span>
                 </div>
               </div>
@@ -340,23 +331,23 @@ export const ChatbotWidget = () => {
               e.preventDefault();
               handleSend();
             }}
-            className="p-3 bg-slate-950 border-t border-slate-800 flex items-center gap-2"
+            className="p-3 bg-graphite-950 border-t border-graphite-800 flex items-center gap-2"
           >
             <input
               type="text"
-              placeholder="Ask about GPUs, PC builds, compatibility..."
+              placeholder="Ask about GPUs, PC builds, compatibility in PKR..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               disabled={isLoading}
-              className="flex-1 bg-slate-900 border border-slate-750 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:border-cyan-400 focus:outline-none"
+              className="flex-1 bg-graphite-900 border border-graphite-750 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:border-yellow-400 focus:outline-none"
             />
             <button
               type="submit"
               disabled={!input.trim() || isLoading}
-              className="p-2.5 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-500 hover:from-cyan-300 hover:to-cyan-400 disabled:opacity-40 disabled:hover:from-cyan-400 text-obsidian-950 transition-all shadow-md"
+              className="p-2.5 rounded-xl bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 disabled:opacity-40 text-white transition-all shadow-md active:scale-95"
               aria-label="Send message"
             >
-              <Send className="w-4 h-4" />
+              <Send className="w-4 h-4 text-yellow-400" />
             </button>
           </form>
         </div>

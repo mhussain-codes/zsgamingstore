@@ -76,7 +76,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${rajdhani.variable} dark scroll-smooth`}>
-      <body className="min-h-screen bg-graphite-950 text-slate-100 flex flex-col font-sans antialiased selection:bg-cyan/30 selection:text-white">
+      <body className="min-h-screen bg-graphite-950 text-slate-100 flex flex-col font-sans antialiased selection:bg-yellow-400 selection:text-graphite-950">
         <StoreProvider>
           <Navbar />
           <main className="flex-1">{children}</main>
