@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <defs>
+    <linearGradient id="zs-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00E5FF"/>
+      <stop offset="100%" stop-color="#00F5D4"/>
+    </linearGradient>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#161E2E"/>
+      <stop offset="100%" stop-color="#0B0F17"/>
+    </linearGradient>
+  </defs>
+  <!-- Base Shield / Hexagon -->
+  <rect width="48" height="48" rx="12" fill="url(#bg-grad)" stroke="#24324B" stroke-width="2"/>
+  <!-- Cyber accent corner lines -->
+  <path d="M8 16L16 8M32 40L40 32" stroke="#00E5FF" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+  <!-- ZS Monogram -->
+  <!-- Top Z stroke -->
+  <path d="M14 15H25L17 24H28" stroke="url(#zs-grad)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Interlocking S stroke -->
+  <path d="M34 24C34 21 31 19 28 19C24 19 21 21 21 24C21 28 34 27 34 32C34 35.5 30.5 37 27 37C22.5 37 20 34.5 20 32" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Dot accent -->
+  <circle cx="35" cy="14" r="2" fill="#00E5FF"/>
+</svg>
