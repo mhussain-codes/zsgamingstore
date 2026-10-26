@@ -13,25 +13,26 @@ import {
   ExternalLink,
   Info,
   ShieldCheck,
+  PhoneCall,
 } from "lucide-react";
 import { useStore } from "@/context/StoreContext";
 import { ChatMessage } from "@/types";
 
 export const ChatbotWidget = () => {
-  const { products, pcBuilds, faqs, guides, settings } = useStore();
+  const { products, pcBuilds, faqs, settings } = useStore();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: "initial-greeting",
       role: "assistant",
       content:
-        "Salaam! I am your **ZS Tech Specialist**. Ask me anything about gaming PC builds, component prices in PKR, AM5/Intel compatibility, or delivery across Pakistan.",
+        "Assalam-o-Alaikum! 🇵🇰 I am your **ZS Tech Specialist**. Ask me anything about gaming PC builds, component prices in PKR, AM5/Intel compatibility, or delivery across Pakistan.",
       timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
       suggestedActions: [
         { label: "Best GPU under 200k PKR?", query: "What is the best GPU under 200k PKR in stock?" },
         { label: "Is Ryzen 7800X3D compatible with DDR4?", query: "Can I use DDR4 RAM with AMD Ryzen 7 7800X3D?" },
         { label: "TCS Shipping times to Karachi?", query: "How long does shipping take to Karachi and how is the PC protected?" },
-        { label: "Prebuilt PCs under 400k", query: "What prebuilt gaming PCs do you have under 400,000 PKR?" },
+        { label: "Prebuilt PCs under 350k", query: "What prebuilt gaming PCs do you have under 350,000 PKR?" },
       ],
     },
   ]);
@@ -101,43 +102,33 @@ export const ChatbotWidget = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          message: textToSend,
-          history: messages.map((m) => ({ role: m.role, content: m.content })),
-          storeCatalog,
+          messages: [...messages, userMsg],
+          catalog: storeCatalog,
         }),
       });
 
+      if (!res.ok) throw new Error("Chat response failed");
+
       const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || "Failed to fetch response");
-      }
-
-      setIsDemoFallback(Boolean(data.isDemoFallback));
-
-      const assistantMsg: ChatMessage = {
-        id: "assistant-" + Date.now(),
+      const botMsg: ChatMessage = {
+        id: "bot-" + Date.now(),
         role: "assistant",
         content: data.reply,
         timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-        suggestedActions: data.suggestedLinks?.map((l: any) => ({
-          label: l.label,
-          href: l.href,
-        })),
+        suggestedActions: data.suggestedActions,
       };
 
-      setMessages((prev) => [...prev, assistantMsg]);
-    } catch (err: any) {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: "err-" + Date.now(),
-          role: "assistant",
-          content:
-            "I encountered a temporary connection issue. Please feel free to check our catalog directly or message us on WhatsApp (+92 300 9742646) for immediate assistance.",
-          timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-        },
-      ]);
+      setMessages((prev) => [...prev, botMsg]);
+    } catch (err) {
+      console.error("Chat error:", err);
+      const errorMsg: ChatMessage = {
+        id: "bot-err-" + Date.now(),
+        role: "assistant",
+        content:
+          "My apologies, I had a momentary glitch connecting to our catalog. Please try again or WhatsApp our build tech directly at +92 300 1234567.",
+        timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      };
+      setMessages((prev) => [...prev, errorMsg]);
     } finally {
       setIsLoading(false);
     }
@@ -149,57 +140,72 @@ export const ChatbotWidget = () => {
         id: "initial-greeting",
         role: "assistant",
         content:
-          "Conversation cleared. How can I help you with your PC build or hardware purchase today?",
+          "Assalam-o-Alaikum! 🇵🇰 I am your **ZS Tech Specialist**. Ask me anything about gaming PC builds, component prices in PKR, AM5/Intel compatibility, or delivery across Pakistan.",
         timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+        suggestedActions: [
+          { label: "Best GPU under 200k PKR?", query: "What is the best GPU under 200k PKR in stock?" },
+          { label: "Is Ryzen 7800X3D compatible with DDR4?", query: "Can I use DDR4 RAM with AMD Ryzen 7 7800X3D?" },
+          { label: "TCS Shipping times to Karachi?", query: "How long does shipping take to Karachi and how is the PC protected?" },
+          { label: "Prebuilt PCs under 350k", query: "What prebuilt gaming PCs do you have under 350,000 PKR?" },
+        ],
       },
     ]);
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-40">
-      {/* Floating Launcher Button */}
-      {!isOpen && (
+    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-2.5">
+      {/* Floating Buttons: WhatsApp & AI Specialist */}
+      <div className="flex items-center gap-2">
+        {/* WhatsApp Direct Chat Button */}
+        <a
+          href={`https://wa.me/${settings.whatsapp.replace(/[^0-9]/g, "")}?text=Hi%20ZS%20Gaming%20Store%2C%20I%20have%20a%20question%20about%20a%20PC%20build.`}
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Chat with our technicians on WhatsApp"
+          className="p-3.5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-obsidian-950 font-bold shadow-lg transition-all hover:scale-110 active:scale-95 flex items-center gap-2"
+        >
+          <PhoneCall className="w-5 h-5 text-obsidian-950" />
+          <span className="hidden sm:inline text-xs font-black">WhatsApp</span>
+        </a>
+
+        {/* AI Tech Chat Trigger */}
         <button
           type="button"
-          onClick={() => setIsOpen(true)}
-          className="group relative flex items-center gap-2.5 px-4 py-3 rounded-full bg-gradient-to-r from-cyan-600 via-cyan-500 to-teal-accent text-graphite-950 font-bold shadow-2xl hover:scale-105 active:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-cyan"
-          aria-label="Open ZS Gaming Store Chatbot"
+          onClick={() => setIsOpen(!isOpen)}
+          title="Open AI PC Specialist"
+          className="relative p-3.5 rounded-2xl bg-gradient-to-r from-cyan-400 to-cyan-500 hover:from-cyan-300 hover:to-cyan-400 text-obsidian-950 shadow-cyanHover transition-all hover:scale-110 active:scale-95 flex items-center gap-2"
         >
-          <div className="relative">
-            <Bot className="w-5 h-5 text-graphite-950" />
-            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-graphite-950 border border-cyan" />
-          </div>
-          <span className="text-xs font-black tracking-wide pr-1">
-            Ask ZS Specialist
-          </span>
-          <span className="hidden sm:inline-block text-[9px] px-1.5 py-0.5 rounded bg-graphite-950 text-cyan uppercase font-bold">
-            AI Help
-          </span>
+          {isOpen ? (
+            <X className="w-5 h-5 text-obsidian-950" />
+          ) : (
+            <>
+              <Bot className="w-5 h-5 text-obsidian-950" />
+              <span className="hidden sm:inline text-xs font-black">AI Tech Help</span>
+              <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-emerald-400 live-pulse"></span>
+            </>
+          )}
         </button>
-      )}
+      </div>
 
-      {/* Chat Window */}
+      {/* Floating Chat Window Modal */}
       {isOpen && (
-        <div className="w-[92vw] sm:w-[410px] h-[580px] max-h-[85vh] bg-graphite-950 border border-graphite-750 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-fadeIn">
+        <div className="w-[92vw] sm:w-[410px] h-[550px] max-h-[80vh] rounded-3xl bg-slate-900 border border-slate-700/80 shadow-2xl flex flex-col overflow-hidden animate-fadeIn backdrop-blur-xl">
           {/* Header */}
-          <div className="p-3.5 bg-graphite-900 border-b border-graphite-800 flex items-center justify-between gap-2">
+          <div className="p-3.5 bg-slate-950/90 border-b border-slate-800 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-500 to-teal-accent flex items-center justify-center text-graphite-950 font-black shadow-sm">
-                <Bot className="w-5 h-5" />
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-cyan-400 to-emerald-400 flex items-center justify-center shadow">
+                <Bot className="w-4 h-4 text-obsidian-950" />
               </div>
               <div>
-                <div className="flex items-center gap-1.5">
-                  <h3 className="font-bold text-white text-xs">
-                    ZS Hardware Specialist
-                  </h3>
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <div className="text-xs font-black text-white flex items-center gap-1.5">
+                  <span>ZS Tech Specialist</span>
+                  <span className="px-1.5 py-0.2 rounded bg-cyan-500/10 text-cyan-400 text-[9px] font-bold border border-cyan-500/30">
+                    AI Assistant
+                  </span>
                 </div>
                 <div className="text-[10px] text-slate-400 flex items-center gap-1">
-                  <span>Grounded in Store Catalog</span>
-                  <span>&bull;</span>
-                  <span className="text-cyan">
-                    {isDemoFallback ? "Knowledge Mode" : "Gemini 2.5 Live"}
-                  </span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  <span className="text-emerald-400 font-semibold">Online &bull; Catalog Grounded</span>
                 </div>
               </div>
             </div>
@@ -209,7 +215,7 @@ export const ChatbotWidget = () => {
                 type="button"
                 onClick={handleReset}
                 title="Reset conversation"
-                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-graphite-800 transition-colors"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
               >
                 <RotateCcw className="w-4 h-4" />
               </button>
@@ -217,7 +223,7 @@ export const ChatbotWidget = () => {
                 type="button"
                 onClick={() => setIsOpen(false)}
                 title="Close chat"
-                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-graphite-800 transition-colors"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -226,16 +232,16 @@ export const ChatbotWidget = () => {
 
           {/* Mode Notice Pill */}
           {isDemoFallback && (
-            <div className="bg-graphite-900/90 border-b border-graphite-800/80 px-3 py-1.5 text-[10px] text-slate-400 flex items-center justify-between">
+            <div className="bg-slate-950/80 border-b border-slate-800/80 px-3.5 py-1.5 text-[10px] text-slate-400 flex items-center justify-between">
               <span className="flex items-center gap-1">
                 <Info className="w-3 h-3 text-amber-400 shrink-0" />
                 Store Knowledge Assistant (Offline Fallback)
               </span>
               <Link
                 href="/admin"
-                className="text-cyan hover:underline font-semibold"
+                className="text-cyan-400 hover:underline font-semibold"
               >
-                Configure Key &rarr;
+                Config &rarr;
               </Link>
             </div>
           )}
@@ -250,23 +256,23 @@ export const ChatbotWidget = () => {
                 }`}
               >
                 {msg.role === "assistant" && (
-                  <div className="w-6 h-6 rounded-lg bg-graphite-800 border border-graphite-700 flex items-center justify-center shrink-0 mt-0.5">
-                    <Bot className="w-3.5 h-3.5 text-cyan" />
+                  <div className="w-6 h-6 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center shrink-0 mt-0.5">
+                    <Bot className="w-3.5 h-3.5 text-cyan-400" />
                   </div>
                 )}
 
                 <div
                   className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed ${
                     msg.role === "user"
-                      ? "bg-cyan text-graphite-950 font-medium rounded-br-sm shadow"
-                      : "bg-graphite-900 border border-graphite-800 text-slate-200 rounded-bl-sm"
+                      ? "bg-gradient-to-r from-cyan-400 to-cyan-500 text-obsidian-950 font-bold rounded-br-sm shadow"
+                      : "bg-slate-950 border border-slate-800 text-slate-200 rounded-bl-sm"
                   }`}
                 >
                   <div className="whitespace-pre-wrap">{msg.content}</div>
 
                   {/* Suggested Action Chips */}
                   {msg.suggestedActions && msg.suggestedActions.length > 0 && (
-                    <div className="mt-2.5 pt-2 border-t border-graphite-800 flex flex-wrap gap-1.5">
+                    <div className="mt-2.5 pt-2 border-t border-slate-800 flex flex-wrap gap-1.5">
                       {msg.suggestedActions.map((action, idx) => {
                         if (action.href) {
                           return (
@@ -274,7 +280,7 @@ export const ChatbotWidget = () => {
                               key={idx}
                               href={action.href}
                               onClick={() => setIsOpen(false)}
-                              className="inline-flex items-center gap-1 px-2 py-1 rounded bg-graphite-800 hover:bg-graphite-700 text-cyan text-[10px] font-semibold transition-colors border border-cyan/20"
+                              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-850 hover:bg-slate-800 text-cyan-400 text-[10px] font-semibold transition-colors border border-cyan-500/20"
                             >
                               <span>{action.label}</span>
                               <ExternalLink className="w-2.5 h-2.5" />
@@ -286,7 +292,7 @@ export const ChatbotWidget = () => {
                             key={idx}
                             type="button"
                             onClick={() => handleSend(action.query || action.label)}
-                            className="px-2 py-1 rounded bg-graphite-800 hover:bg-graphite-750 text-slate-300 hover:text-white text-[10px] transition-colors border border-graphite-700 text-left"
+                            className="px-2.5 py-1 rounded-lg bg-slate-850 hover:bg-slate-800 text-slate-300 hover:text-white text-[10px] transition-colors border border-slate-750 text-left font-medium"
                           >
                             {action.label}
                           </button>
@@ -297,7 +303,7 @@ export const ChatbotWidget = () => {
 
                   <div
                     className={`text-[9px] mt-1 text-right ${
-                      msg.role === "user" ? "text-graphite-800" : "text-slate-500"
+                      msg.role === "user" ? "text-obsidian-900" : "text-slate-500"
                     }`}
                   >
                     {msg.timestamp}
@@ -305,8 +311,8 @@ export const ChatbotWidget = () => {
                 </div>
 
                 {msg.role === "user" && (
-                  <div className="w-6 h-6 rounded-lg bg-cyan/20 border border-cyan/40 flex items-center justify-center shrink-0 mt-0.5">
-                    <User className="w-3.5 h-3.5 text-cyan" />
+                  <div className="w-6 h-6 rounded-lg bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center shrink-0 mt-0.5">
+                    <User className="w-3.5 h-3.5 text-cyan-400" />
                   </div>
                 )}
               </div>
@@ -314,14 +320,14 @@ export const ChatbotWidget = () => {
 
             {isLoading && (
               <div className="flex gap-2.5 items-center">
-                <div className="w-6 h-6 rounded-lg bg-graphite-800 border border-graphite-700 flex items-center justify-center shrink-0">
-                  <Bot className="w-3.5 h-3.5 text-cyan" />
+                <div className="w-6 h-6 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center shrink-0">
+                  <Bot className="w-3.5 h-3.5 text-cyan-400" />
                 </div>
-                <div className="bg-graphite-900 border border-graphite-800 rounded-2xl px-3 py-2 text-xs text-slate-400 flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan animate-bounce" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan animate-bounce [animation-delay:0.2s]" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan animate-bounce [animation-delay:0.4s]" />
-                  <span className="text-[11px] ml-1">Consulting store catalog...</span>
+                <div className="bg-slate-950 border border-slate-800 rounded-2xl px-3 py-2 text-xs text-slate-400 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-bounce" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-bounce [animation-delay:0.2s]" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-bounce [animation-delay:0.4s]" />
+                  <span className="text-[11px] ml-1">Checking store stock &amp; benchmarks...</span>
                 </div>
               </div>
             )}
@@ -334,7 +340,7 @@ export const ChatbotWidget = () => {
               e.preventDefault();
               handleSend();
             }}
-            className="p-3 bg-graphite-900 border-t border-graphite-800 flex items-center gap-2"
+            className="p-3 bg-slate-950 border-t border-slate-800 flex items-center gap-2"
           >
             <input
               type="text"
@@ -342,12 +348,12 @@ export const ChatbotWidget = () => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               disabled={isLoading}
-              className="flex-1 bg-graphite-950 border border-graphite-750 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:border-cyan focus:outline-none"
+              className="flex-1 bg-slate-900 border border-slate-750 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:border-cyan-400 focus:outline-none"
             />
             <button
               type="submit"
               disabled={!input.trim() || isLoading}
-              className="p-2 rounded-xl bg-cyan hover:bg-cyan-400 disabled:opacity-40 disabled:hover:bg-cyan text-graphite-950 transition-colors"
+              className="p-2.5 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-500 hover:from-cyan-300 hover:to-cyan-400 disabled:opacity-40 disabled:hover:from-cyan-400 text-obsidian-950 transition-all shadow-md"
               aria-label="Send message"
             >
               <Send className="w-4 h-4" />

@@ -13,6 +13,8 @@ import {
   Gauge,
   Heart,
   Scale,
+  Sparkles,
+  Flame,
 } from "lucide-react";
 import { PCBuild } from "@/types";
 import { useStore } from "@/context/StoreContext";
@@ -38,23 +40,24 @@ export const PCBuildCard: React.FC<PCBuildCardProps> = ({ build }) => {
 
   const tierColors = {
     budget: "text-emerald-400 bg-emerald-500/10 border-emerald-500/30",
-    "mid-range": "text-cyan bg-cyan/10 border-cyan/30",
+    "mid-range": "text-cyan-400 bg-cyan-500/10 border-cyan-500/30",
     enthusiast: "text-purple-400 bg-purple-500/10 border-purple-500/30",
     extreme: "text-amber-400 bg-amber-500/10 border-amber-500/30",
   }[build.tier];
 
   return (
-    <div className="group relative bg-graphite-900 border border-graphite-800 hover:border-cyan/40 rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:shadow-card hover:-translate-y-1">
+    <div className="group relative bg-slate-900/90 border border-slate-800/90 hover:border-cyan-500/50 rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:shadow-cardHover hover:-translate-y-2 backdrop-blur-sm">
       {/* Top Media & Tags */}
       <div className="relative">
         <div className="absolute top-2.5 left-2.5 z-10 flex flex-col gap-1.5 items-start">
           <span
-            className={`px-2.5 py-1 text-[10px] font-black uppercase tracking-wider rounded-lg border backdrop-blur-md ${tierColors}`}
+            className={`px-2.5 py-1 text-[10px] font-black uppercase tracking-wider rounded-lg border backdrop-blur-md shadow-sm ${tierColors}`}
           >
             {build.tier.replace("-", " ")}
           </span>
           {build.badge && (
-            <span className="px-2 py-0.5 text-[9px] font-bold rounded bg-coral text-white shadow">
+            <span className="px-2.5 py-0.5 text-[9px] font-black uppercase tracking-wider rounded-md bg-coral text-white shadow-md flex items-center gap-1">
+              <Flame className="w-2.5 h-2.5" />
               {build.badge}
             </span>
           )}
@@ -69,10 +72,10 @@ export const PCBuildCard: React.FC<PCBuildCardProps> = ({ build }) => {
               toggleWishlist(build.id);
             }}
             title={isWished ? "Remove from wishlist" : "Add to wishlist"}
-            className={`p-2 rounded-xl backdrop-blur-md transition-colors ${
+            className={`p-2 rounded-xl backdrop-blur-md transition-all ${
               isWished
-                ? "bg-coral text-white"
-                : "bg-graphite-950/70 text-slate-300 hover:text-white hover:bg-graphite-800"
+                ? "bg-coral text-white scale-110"
+                : "bg-slate-950/70 text-slate-300 hover:text-white hover:bg-slate-800"
             }`}
             aria-label="Wishlist toggle"
           >
@@ -85,10 +88,10 @@ export const PCBuildCard: React.FC<PCBuildCardProps> = ({ build }) => {
               addToCompare(build);
             }}
             title={isCompared ? "In comparison" : "Add to comparison"}
-            className={`p-2 rounded-xl backdrop-blur-md transition-colors ${
+            className={`p-2 rounded-xl backdrop-blur-md transition-all ${
               isCompared
-                ? "bg-cyan text-graphite-950"
-                : "bg-graphite-950/70 text-slate-300 hover:text-white hover:bg-graphite-800"
+                ? "bg-cyan-400 text-obsidian-950 scale-110"
+                : "bg-slate-950/70 text-slate-300 hover:text-white hover:bg-slate-800"
             }`}
             aria-label="Compare toggle"
           >
@@ -99,101 +102,103 @@ export const PCBuildCard: React.FC<PCBuildCardProps> = ({ build }) => {
         {/* Visual Image */}
         <Link
           href={`/builds/${build.slug}`}
-          className="block rounded-xl overflow-hidden bg-graphite-950 group-hover:scale-[1.02] transition-transform duration-300"
+          className="block rounded-xl overflow-hidden bg-slate-950/70 p-3 group-hover:scale-[1.02] transition-transform duration-300"
         >
           <SafeImage
             src={build.image}
             alt={build.name}
             category="cases"
-            aspectRatio="video"
+            className="w-full h-52 object-contain rounded-lg"
           />
         </Link>
-      </div>
 
-      {/* Main Details */}
-      <div className="mt-4 flex-1 flex flex-col justify-between">
-        <div>
-          <div className="flex items-center justify-between text-xs text-slate-400 mb-1">
-            <span className="flex items-center gap-1 text-cyan font-bold">
-              <ShieldCheck className="w-3.5 h-3.5 text-cyan" />
-              {build.warrantyYears}-Year ZS Warranty
+        {/* FPS Benchmark Pill Badge */}
+        {topBenchmark && (
+          <div className="mt-2.5 flex items-center justify-between px-3 py-1.5 rounded-xl bg-slate-950/80 border border-slate-800 text-[11px] text-slate-300">
+            <span className="flex items-center gap-1.5 text-slate-400">
+              <Gauge className="w-3.5 h-3.5 text-cyan-400" />
+              {topBenchmark.game} ({topBenchmark.resolution})
             </span>
-            <span className="text-[11px] text-emerald-400 font-semibold">
-              Ready to Ship
+            <span className="font-mono font-black text-emerald-400">
+              {topBenchmark.fps} FPS
             </span>
           </div>
+        )}
+      </div>
 
-          <Link href={`/builds/${build.slug}`}>
-            <h3 className="font-bold text-white text-base group-hover:text-cyan transition-colors leading-snug">
-              {build.name}
-            </h3>
+      {/* Build Details */}
+      <div className="mt-4 flex-1 flex flex-col justify-between">
+        <div>
+          <Link
+            href={`/builds/${build.slug}`}
+            className="block text-base font-black text-white hover:text-cyan-400 transition-colors"
+          >
+            {build.name}
           </Link>
-
-          <p className="text-xs text-slate-400 mt-1 line-clamp-2 leading-relaxed">
+          <p className="mt-1 text-xs text-slate-400 line-clamp-2">
             {build.shortDescription}
           </p>
 
-          {/* Key Specs Matrix */}
-          <div className="mt-3.5 grid grid-cols-2 gap-2 p-2.5 rounded-xl bg-graphite-850/80 border border-graphite-800 text-[11px]">
+          {/* Key Spec Grid */}
+          <div className="mt-3.5 grid grid-cols-2 gap-2 text-[11px] bg-slate-950/60 p-2.5 rounded-xl border border-slate-800/80">
             <div className="flex items-center gap-1.5 text-slate-300 truncate">
-              <Cpu className="w-3.5 h-3.5 text-cyan shrink-0" />
-              <span className="truncate">{build.specs.cpu.split("(")[0]}</span>
+              <CircuitBoard className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+              <span className="truncate">{build.specs.gpu}</span>
             </div>
             <div className="flex items-center gap-1.5 text-slate-300 truncate">
-              <CircuitBoard className="w-3.5 h-3.5 text-cyan shrink-0" />
-              <span className="truncate">{build.specs.gpu.split("GeForce")[1] || build.specs.gpu}</span>
+              <Cpu className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+              <span className="truncate">{build.specs.cpu}</span>
             </div>
             <div className="flex items-center gap-1.5 text-slate-300 truncate">
-              <Zap className="w-3.5 h-3.5 text-cyan shrink-0" />
-              <span className="truncate">{build.specs.ram.split("(")[0]}</span>
+              <Zap className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+              <span className="truncate">{build.specs.ram}</span>
             </div>
             <div className="flex items-center gap-1.5 text-slate-300 truncate">
-              <HardDrive className="w-3.5 h-3.5 text-cyan shrink-0" />
-              <span className="truncate">{build.specs.storage.split("(")[0]}</span>
+              <HardDrive className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+              <span className="truncate">{build.specs.storage}</span>
             </div>
           </div>
 
-          {/* FPS Highlight if available */}
-          {topBenchmark && (
-            <div className="mt-2.5 flex items-center justify-between px-3 py-1.5 rounded-lg bg-cyan/5 border border-cyan/20 text-xs">
-              <span className="flex items-center gap-1.5 text-slate-300 text-[11px]">
-                <Gauge className="w-3.5 h-3.5 text-cyan" />
-                {topBenchmark.game.split("(")[0]}
-              </span>
-              <span className="font-extrabold text-cyan font-mono">
-                {topBenchmark.fps} FPS
-              </span>
-            </div>
-          )}
+          <div className="mt-2.5 flex items-center justify-between text-[11px] text-slate-400">
+            <span className="flex items-center gap-1 text-emerald-400">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              3-Yr Hardware Warranty
+            </span>
+            <span className="text-[10px] text-slate-400 font-medium">
+              Tested &amp; Benchmarked
+            </span>
+          </div>
         </div>
 
-        {/* Pricing and Action Buttons */}
-        <div className="mt-5 pt-3.5 border-t border-graphite-800/80 flex items-center justify-between gap-3">
-          <div>
-            <div className="text-lg font-black text-white font-mono tracking-tight">
-              {formatPKR(build.salePrice ?? build.price)}
-            </div>
-            {build.salePrice && (
-              <div className="text-[11px] text-slate-500 line-through font-mono">
-                {formatPKR(build.price)}
-              </div>
-            )}
+        {/* Pricing and Action CTAs */}
+        <div className="mt-4 pt-3.5 border-t border-slate-800/80 flex items-center justify-between gap-3">
+          <div className="flex flex-col">
+            <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+              Complete Rig Price
+            </span>
+            <span className="text-lg font-black text-white font-mono tracking-tight">
+              {formatPKR(build.price)}
+            </span>
           </div>
 
           <div className="flex items-center gap-2">
             <Link
               href={`/builds/${build.slug}`}
-              className="px-3 py-2 rounded-xl bg-graphite-800 hover:bg-graphite-700 text-slate-200 border border-graphite-700 text-xs font-bold transition-colors"
+              className="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors text-xs font-bold"
+              title="View system breakdown"
             >
-              Specs
+              Details
             </Link>
             <button
               type="button"
-              onClick={() => addToCart(build, 1, "prebuilt")}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-cyan hover:bg-cyan-400 text-graphite-950 text-xs font-black transition-all shadow-cyanHover"
+              onClick={(e) => {
+                e.preventDefault();
+                addToCart(build, 1);
+              }}
+              className="px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-500 hover:from-cyan-300 hover:to-cyan-400 text-obsidian-950 font-black text-xs transition-all hover:scale-105 active:scale-95 shadow-md flex items-center gap-1.5"
             >
-              <ShoppingCart className="w-3.5 h-3.5" />
-              <span>Order</span>
+              <ShoppingCart className="w-3.5 h-3.5 text-obsidian-950" />
+              Order Rig
             </button>
           </div>
         </div>

@@ -23,6 +23,9 @@ import {
   Info,
   ShieldCheck,
   Share2,
+  Sparkles,
+  Gauge,
+  Check,
 } from "lucide-react";
 import { useStore } from "@/context/StoreContext";
 import { Product, ProductCategory } from "@/types";
@@ -98,55 +101,57 @@ export default function PCBuilderPage() {
       }
     }
 
-    // 2. RAM Type Check (Motherboard vs RAM)
+    // 2. Memory Generation Check (Motherboard vs RAM)
     if (mobo && ram) {
       const moboRam = mobo.compatibility?.ramType;
       const ramType = ram.compatibility?.ramType;
       if (moboRam && ramType && moboRam !== ramType) {
         issues.push({
           type: "error",
-          text: `RAM Type Mismatch: Motherboard requires ${moboRam}, but selected RAM is ${ramType}.`,
+          text: `RAM Mismatch: Motherboard takes ${moboRam}, but selected RAM is ${ramType}.`,
         });
       } else {
         issues.push({
           type: "success",
-          text: `Memory Match: ${ramType || moboRam} RAM is fully compatible.`,
+          text: `Memory Match: Both Motherboard and Memory use ${moboRam || ramType} standard.`,
         });
       }
     }
 
-    // 3. AMD AM5 + DDR4 Check
-    if (cpu?.compatibility?.socket === "AM5" && ram?.compatibility?.ramType === "DDR4") {
-      issues.push({
-        type: "error",
-        text: "AMD Socket AM5 processors require DDR5 RAM. DDR4 will not fit.",
-      });
-    }
-
-    // 4. Power Supply Headroom Calculation
-    const cpuTdp = cpu?.compatibility?.tdpWatts || 65;
-    const gpuTdp = gpu?.compatibility?.tdpWatts || 0;
-    const baseSystemWatts = 100;
-    const estimatedTotalDraw = cpuTdp + gpuTdp + baseSystemWatts;
+    // 3. Power Supply Wattage Requirement
+    const estimatedWattage =
+      (cpu?.compatibility?.tdpWatts || 105) +
+      (gpu?.compatibility?.tdpWatts || 220) +
+      100; // baseline for mobo, ram, fans, drives
 
     if (psu) {
-      const psuWattageMatch = psu.specs["Wattage"]?.match(/\d+/);
-      const psuWatts = psuWattageMatch ? parseInt(psuWattageMatch[0], 10) : 650;
-
-      if (psuWatts < estimatedTotalDraw) {
-        issues.push({
-          type: "error",
-          text: `Insufficient PSU: Build draws ~${estimatedTotalDraw}W, but ${psu.name} is only ${psuWatts}W.`,
-        });
-      } else if (psuWatts < estimatedTotalDraw + 150) {
+      const psuWattage = psu.compatibility?.wattage || 750;
+      if (psuWattage < estimatedWattage + 100) {
         issues.push({
           type: "warning",
-          text: `Tight Power Headroom: Estimated draw is ~${estimatedTotalDraw}W. An 850W+ PSU is recommended for transient spikes.`,
+          text: `Low PSU Headroom: Estimated draw is ~${estimatedWattage}W. Recommended PSU is at least ${estimatedWattage + 150}W.`,
         });
       } else {
         issues.push({
           type: "success",
-          text: `Adequate Power: ${psuWatts}W PSU provides healthy headroom for estimated ~${estimatedTotalDraw}W draw.`,
+          text: `PSU Headroom Verified: ${psuWattage}W PSU provides healthy headroom over estimated ${estimatedWattage}W peak draw.`,
+        });
+      }
+    }
+
+    // 4. Case Form Factor
+    if (pcCase && mobo) {
+      const moboForm = mobo.compatibility?.formFactor || "ATX";
+      const caseForms = pcCase.compatibility?.supportedFormFactors || ["ATX", "Micro-ATX", "Mini-ITX"];
+      if (!caseForms.includes(moboForm)) {
+        issues.push({
+          type: "error",
+          text: `Form Factor Mismatch: Case does not fit ${moboForm} motherboard.`,
+        });
+      } else {
+        issues.push({
+          type: "success",
+          text: `Form Factor Match: Case supports ${moboForm} motherboard footprint.`,
         });
       }
     }
@@ -179,6 +184,14 @@ export default function PCBuilderPage() {
   ).length;
   const isComplete = selectedRequiredCount === requiredSlotsCount;
 
+  // Estimated system power draw
+  const estimatedPower = useMemo(() => {
+    let power = 80; // Baseline fans, SSD, motherboard
+    if (customBuild.cpu?.compatibility?.tdpWatts) power += customBuild.cpu.compatibility.tdpWatts;
+    if (customBuild.gpu?.compatibility?.tdpWatts) power += customBuild.gpu.compatibility.tdpWatts;
+    return power;
+  }, [customBuild]);
+
   const handleAddBuildToCart = () => {
     if (!isComplete) {
       showToast("Please select all required core components first", "error");
@@ -192,13 +205,13 @@ export default function PCBuilderPage() {
     // Create a virtual product representation for the custom build
     const customBuildProduct: Product = {
       id: "custom-rig-" + Date.now(),
-      name: `Custom PC Rig (${customBuild.cpu?.name?.split(" ")[0]} + ${customBuild.gpu?.name?.split("GeForce")[1] || "Custom GPU"})`,
+      name: `Custom Gaming PC (${customBuild.cpu?.name?.split(" ")[0]} + ${customBuild.gpu?.name?.split("GeForce")[1] || "Custom GPU"})`,
       slug: "custom-pc-build-" + Date.now(),
       brand: "ZS Custom Rig",
       category: "processors",
       price: customBuildTotal,
       shortDescription: `Custom assembled PC with ${customBuild.cpu?.name}, ${customBuild.gpu?.name}, ${customBuild.ram?.name}`,
-      description: "Custom PC configured via ZS Gaming Store Builder. Includes 24-hr testing, BIOS setup, and 2-Year warranty.",
+      description: "Custom PC configured via ZS Gaming Store Builder. Includes 3-hour thermal testing, clean cable management, and 2-Year warranty.",
       image: customBuild.case?.image || "https://images.unsplash.com/photo-1587202372574-633385848590?w=800&auto=format&fit=crop&q=80",
       inStock: true,
       stockCount: 1,
@@ -228,7 +241,7 @@ export default function PCBuilderPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-8 py-8 space-y-8">
       {/* Breadcrumb */}
       <nav className="text-xs text-slate-400 flex items-center gap-2">
-        <Link href="/" className="hover:text-cyan transition-colors">
+        <Link href="/" className="hover:text-cyan-400 transition-colors">
           Home
         </Link>
         <span>/</span>
@@ -236,29 +249,83 @@ export default function PCBuilderPage() {
       </nav>
 
       {/* Header Banner */}
-      <div className="p-8 rounded-3xl bg-gradient-to-r from-graphite-900 via-graphite-850 to-graphite-900 border border-cyan/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-        <div className="max-w-2xl space-y-2">
-          <div className="inline-flex items-center gap-1.5 text-cyan text-xs font-bold uppercase tracking-wider">
-            <Wrench className="w-4 h-4" />
-            <span>Interactive Hardware Configurator</span>
+      <div className="p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 border border-cyan-500/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-2xl relative overflow-hidden">
+        <div className="ambient-glow-cyan absolute inset-0 pointer-events-none" />
+
+        <div className="max-w-2xl space-y-2 relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-bold uppercase tracking-wider">
+            <Wrench className="w-3.5 h-3.5" />
+            <span>Interactive Hardware Configurator &bull; Pakistan</span>
           </div>
           <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
             Design Your Custom Gaming PC
           </h1>
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-            Select compatible parts step-by-step. Our engine validates Socket AM5 vs LGA1700, DDR5 memory, and PSU power requirements in real-time.
+            Select parts step-by-step. Our engine checks Socket AM5 vs LGA1700, DDR4/DDR5 matching, and PSU wattage headroom in real time with transparent PKR pricing.
           </p>
+
+          <div className="pt-2 flex flex-wrap gap-3 text-[11px] text-slate-400">
+            <span className="flex items-center gap-1 text-emerald-400 font-semibold">
+              <Check className="w-3.5 h-3.5" /> Free Laser Cable Routing
+            </span>
+            <span className="flex items-center gap-1 text-emerald-400 font-semibold">
+              <Check className="w-3.5 h-3.5" /> 3-Hr Thermal Video Proof
+            </span>
+            <span className="flex items-center gap-1 text-emerald-400 font-semibold">
+              <Check className="w-3.5 h-3.5" /> 2-Year Full Hardware Warranty
+            </span>
+          </div>
         </div>
 
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-3 shrink-0 relative z-10">
           <button
             type="button"
             onClick={clearCustomBuild}
-            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-graphite-800 hover:bg-graphite-700 text-slate-300 text-xs font-bold border border-graphite-700 transition-colors"
+            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold border border-slate-700 transition-colors"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Reset Build</span>
           </button>
+        </div>
+      </div>
+
+      {/* Progress & Power Bar */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Core Parts Progress */}
+        <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-4">
+          <div>
+            <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+              Core Components Progress
+            </div>
+            <div className="text-sm font-black text-white mt-0.5">
+              {selectedRequiredCount} of {requiredSlotsCount} Required Parts Selected
+            </div>
+          </div>
+          <div className="w-36 bg-slate-800 h-2.5 rounded-full overflow-hidden border border-slate-700">
+            <div
+              className="bg-gradient-to-r from-cyan-400 to-emerald-400 h-full rounded-full transition-all duration-500"
+              style={{ width: `${(selectedRequiredCount / requiredSlotsCount) * 100}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Live Power Consumption Meter */}
+        <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-4">
+          <div>
+            <div className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+              <Gauge className="w-3.5 h-3.5 text-cyan-400" />
+              Estimated Peak Draw
+            </div>
+            <div className="text-sm font-black text-white mt-0.5 font-mono">
+              ~{estimatedPower} Watts
+              <span className="text-xs text-slate-400 font-sans font-normal ml-2">
+                (Recommend {estimatedPower + 150}W+ PSU)
+              </span>
+            </div>
+          </div>
+          <span className="px-3 py-1 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-xs font-bold font-mono">
+            {customBuild.psu ? `${customBuild.psu.compatibility?.wattage || 750}W Fitted` : "PSU Pending"}
+          </span>
         </div>
       </div>
 
@@ -267,7 +334,7 @@ export default function PCBuilderPage() {
         <div className="lg:col-span-5 space-y-3">
           <div className="flex items-center justify-between text-xs font-bold text-slate-400 px-1">
             <span>CONFIGURATOR STEPS</span>
-            <span className="text-cyan">
+            <span className="text-cyan-400">
               {selectedRequiredCount} of {requiredSlotsCount} Core Selected
             </span>
           </div>
@@ -284,18 +351,18 @@ export default function PCBuilderPage() {
                   onClick={() => setActiveSlotKey(slot.key)}
                   className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
                     isActive
-                      ? "bg-graphite-850 border-cyan shadow-cyanHover"
+                      ? "bg-slate-850 border-cyan-400 shadow-cyanHover scale-[1.01]"
                       : selectedItem
-                      ? "bg-graphite-900 border-graphite-750 hover:border-slate-600"
-                      : "bg-graphite-900/60 border-graphite-800/80 hover:border-graphite-700"
+                      ? "bg-slate-900 border-slate-750 hover:border-slate-600"
+                      : "bg-slate-900/60 border-slate-800/80 hover:border-slate-700"
                   }`}
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <div
                       className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 border ${
                         selectedItem
-                          ? "bg-cyan/10 border-cyan/30 text-cyan"
-                          : "bg-graphite-800 border-graphite-700 text-slate-400"
+                          ? "bg-cyan-500/10 border-cyan-500/30 text-cyan-400"
+                          : "bg-slate-800 border-slate-700 text-slate-400"
                       }`}
                     >
                       <Icon className="w-4 h-4" />
@@ -325,7 +392,7 @@ export default function PCBuilderPage() {
                   <div className="flex items-center gap-2 shrink-0">
                     {selectedItem ? (
                       <div className="text-right">
-                        <div className="text-xs font-bold text-cyan font-mono">
+                        <div className="text-xs font-bold text-cyan-400 font-mono">
                           {formatPKR(selectedItem.salePrice ?? selectedItem.price)}
                         </div>
                         <button
@@ -334,13 +401,13 @@ export default function PCBuilderPage() {
                             e.stopPropagation();
                             setCustomBuildPart(slot.key, undefined);
                           }}
-                          className="text-[10px] text-coral hover:underline flex items-center gap-0.5 justify-end"
+                          className="text-[10px] text-coral hover:underline flex items-center gap-0.5 justify-end font-semibold"
                         >
                           <Trash2 className="w-2.5 h-2.5" /> Remove
                         </button>
                       </div>
                     ) : (
-                      <span className="p-1.5 rounded-lg bg-graphite-800 text-slate-400">
+                      <span className="p-1.5 rounded-lg bg-slate-800 text-slate-400">
                         <Plus className="w-3.5 h-3.5" />
                       </span>
                     )}
@@ -354,17 +421,17 @@ export default function PCBuilderPage() {
         {/* Right Column: Active Slot Candidate Picker & Live Compatibility Summary (7 cols) */}
         <div className="lg:col-span-7 space-y-6">
           {/* Active Slot Header & Component Selection */}
-          <div className="p-6 rounded-2xl bg-graphite-900 border border-graphite-800 space-y-4">
+          <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <span className="text-[10px] font-bold text-cyan uppercase tracking-wider">
+                <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-wider">
                   Currently Choosing
                 </span>
                 <h3 className="text-lg font-black text-white">
                   Available {activeSlot.name}
                 </h3>
               </div>
-              <span className="text-xs text-slate-400">
+              <span className="text-xs text-slate-400 font-semibold">
                 {slotCandidates.length} options in stock
               </span>
             </div>
@@ -379,12 +446,12 @@ export default function PCBuilderPage() {
                     key={cand.id}
                     className={`p-4 rounded-xl border transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 ${
                       isSelected
-                        ? "bg-cyan/10 border-cyan"
-                        : "bg-graphite-850 border-graphite-750 hover:border-graphite-600"
+                        ? "bg-cyan-500/10 border-cyan-400 shadow-md"
+                        : "bg-slate-850 border-slate-750 hover:border-slate-600"
                     }`}
                   >
                     <div className="flex items-center gap-3.5 min-w-0 flex-1">
-                      <div className="w-14 h-14 rounded-lg bg-graphite-950 p-1 shrink-0 overflow-hidden border border-graphite-700">
+                      <div className="w-14 h-14 rounded-lg bg-slate-950 p-1 shrink-0 overflow-hidden border border-slate-700">
                         <img
                           src={cand.image}
                           alt={cand.name}
@@ -392,7 +459,7 @@ export default function PCBuilderPage() {
                         />
                       </div>
                       <div className="min-w-0">
-                        <div className="text-[11px] font-bold text-cyan uppercase">
+                        <div className="text-[11px] font-bold text-cyan-400 uppercase font-mono">
                           {cand.brand}
                         </div>
                         <h4 className="text-xs font-bold text-white truncate">
@@ -403,12 +470,12 @@ export default function PCBuilderPage() {
                         </p>
                         <div className="flex gap-2 text-[10px] text-slate-400 mt-1">
                           {cand.compatibility?.socket && (
-                            <span className="px-1.5 py-0.2 rounded bg-graphite-800 text-slate-300">
+                            <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">
                               Socket {cand.compatibility.socket}
                             </span>
                           )}
                           {cand.compatibility?.ramType && (
-                            <span className="px-1.5 py-0.2 rounded bg-graphite-800 text-slate-300">
+                            <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">
                               {cand.compatibility.ramType}
                             </span>
                           )}
@@ -423,13 +490,13 @@ export default function PCBuilderPage() {
                       <button
                         type="button"
                         onClick={() => setCustomBuildPart(activeSlotKey, cand)}
-                        className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                        className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
                           isSelected
-                            ? "bg-cyan text-graphite-950 font-black"
-                            : "bg-graphite-800 hover:bg-cyan hover:text-graphite-950 text-slate-200 border border-graphite-700"
+                            ? "bg-cyan-400 text-obsidian-950 font-black shadow-sm"
+                            : "bg-slate-800 hover:bg-cyan-400 hover:text-obsidian-950 text-slate-200 border border-slate-700"
                         }`}
                       >
-                        {isSelected ? "Selected" : "Select"}
+                        {isSelected ? "Selected ✓" : "Select Part"}
                       </button>
                     </div>
                   </div>
@@ -439,14 +506,14 @@ export default function PCBuilderPage() {
           </div>
 
           {/* Compatibility Engine Diagnostics */}
-          <div className="p-6 rounded-2xl bg-graphite-900 border border-graphite-800 space-y-3">
+          <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
             <div className="flex items-center justify-between text-xs font-bold">
               <span className="flex items-center gap-1.5 text-white">
-                <ShieldCheck className="w-4 h-4 text-cyan" />
-                Live Compatibility Check
+                <ShieldCheck className="w-4 h-4 text-cyan-400" />
+                Live Hardware Compatibility Check
               </span>
               <span
-                className={`px-2 py-0.5 rounded text-[10px] font-black uppercase ${
+                className={`px-2.5 py-0.5 rounded-md text-[10px] font-black uppercase ${
                   hasErrors
                     ? "bg-coral/20 text-coral border border-coral/40"
                     : "bg-emerald-500/20 text-emerald-400 border border-emerald-500/40"
@@ -486,14 +553,14 @@ export default function PCBuilderPage() {
           </div>
 
           {/* Running Total & Order Action Bar */}
-          <div className="p-6 rounded-2xl bg-gradient-to-r from-graphite-900 to-graphite-850 border border-cyan/40 flex flex-col sm:flex-row items-center justify-between gap-5 shadow-card">
+          <div className="p-6 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-850 border border-cyan-500/40 flex flex-col sm:flex-row items-center justify-between gap-5 shadow-card">
             <div>
               <div className="text-xs text-slate-400 font-medium">Estimated Build Total</div>
               <div className="text-2xl sm:text-3xl font-black text-white font-mono">
                 {formatPKR(customBuildTotal)}
               </div>
-              <div className="text-[11px] text-cyan mt-0.5">
-                Includes assembly, cable management &amp; 24h stress testing
+              <div className="text-[11px] text-cyan-400 mt-0.5 font-medium">
+                Includes assembly, laser cable management &amp; 3h stress test
               </div>
             </div>
 
@@ -501,7 +568,7 @@ export default function PCBuilderPage() {
               type="button"
               onClick={handleAddBuildToCart}
               disabled={!isComplete || hasErrors}
-              className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-cyan hover:bg-cyan-400 disabled:opacity-40 disabled:hover:bg-cyan text-graphite-950 font-black text-sm shadow-cyanHover transition-all flex items-center justify-center gap-2"
+              className="btn-shimmer w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-500 hover:from-cyan-300 hover:to-cyan-400 disabled:opacity-40 disabled:hover:from-cyan-400 text-obsidian-950 font-black text-sm shadow-cyanHover transition-all flex items-center justify-center gap-2"
             >
               <ShoppingCart className="w-4 h-4" />
               <span>Add Custom Build to Cart</span>

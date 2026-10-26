@@ -17,6 +17,8 @@ import {
   Truck,
   ArrowRight,
   ExternalLink,
+  Flame,
+  Sparkles,
 } from "lucide-react";
 import { useStore } from "@/context/StoreContext";
 import { Logo } from "@/components/brand/Logo";
@@ -82,21 +84,21 @@ export const Navbar = () => {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-graphite-950/95 backdrop-blur-md border-b border-graphite-800">
+    <header className="sticky top-0 z-40 w-full bg-obsidian-950/90 backdrop-blur-xl border-b border-slate-800/80 transition-colors">
       {/* Top Utility / Announcement Bar */}
-      <div className="bg-graphite-900 border-b border-graphite-800 text-[11px] text-slate-300 py-1.5 px-4 sm:px-8">
+      <div className="bg-obsidian-900/90 border-b border-slate-800/60 text-[11px] text-slate-300 py-1.5 px-4 sm:px-8">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1.5">
           <div className="flex items-center gap-3">
-            <span className="flex items-center gap-1.5 text-cyan font-medium">
+            <span className="flex items-center gap-1.5 text-emerald-400 font-semibold tracking-wide">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
               </span>
-              Pakistan Delivery
+              Pakistan Delivery Active
             </span>
-            <span className="hidden md:inline text-slate-500">|</span>
+            <span className="hidden md:inline text-slate-600">|</span>
             <span className="truncate max-w-[320px] sm:max-w-none text-slate-300">
-              {settings.announcementBar}
+              ⚡ Free Insured Shipping Over Rs. 25,000 • Stress-Tested Before Dispatch
             </span>
           </div>
 
@@ -105,21 +107,21 @@ export const Navbar = () => {
               href={`tel:${settings.phone}`}
               className="flex items-center gap-1 hover:text-white transition-colors"
             >
-              <Phone className="w-3 h-3 text-cyan" />
+              <Phone className="w-3 h-3 text-cyan-400" />
               <span>{settings.phone}</span>
             </a>
             <a
               href={`https://wa.me/${settings.whatsapp.replace(/[^0-9]/g, "")}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300 transition-colors font-medium"
+              className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300 transition-colors font-semibold"
             >
               <MessageSquare className="w-3 h-3" />
-              <span>WhatsApp Support</span>
+              <span>WhatsApp Us</span>
             </a>
             <Link
               href="/admin"
-              className="text-xs px-2 py-0.5 rounded bg-graphite-800 hover:bg-graphite-700 text-slate-300 hover:text-cyan border border-graphite-700 transition-colors"
+              className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-300 hover:text-cyan-400 border border-slate-700/80 transition-colors"
             >
               Admin Mode
             </Link>
@@ -144,7 +146,7 @@ export const Navbar = () => {
                 setSearchOpen(true);
               }}
               onFocus={() => setSearchOpen(true)}
-              className="w-full bg-graphite-900 border border-graphite-700/80 rounded-xl py-2 pl-10 pr-10 text-sm text-white placeholder-slate-400 focus:border-cyan focus:ring-1 focus:ring-cyan transition-all"
+              className="w-full bg-slate-900/90 border border-slate-700/70 rounded-xl py-2 pl-10 pr-10 text-sm text-white placeholder-slate-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 transition-all shadow-inner"
             />
             <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             {searchQuery && (
@@ -160,11 +162,12 @@ export const Navbar = () => {
 
           {/* Autocomplete Dropdown */}
           {searchOpen && searchResults.length > 0 && (
-            <div className="absolute left-0 right-0 top-full mt-2 bg-graphite-900 border border-graphite-700 rounded-xl shadow-2xl overflow-hidden z-50">
-              <div className="p-2 border-b border-graphite-800 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-                Matching Hardware &amp; Systems
+            <div className="absolute left-0 right-0 top-full mt-2 bg-slate-900 border border-slate-700/90 rounded-2xl shadow-2xl overflow-hidden z-50 backdrop-blur-xl animate-fadeIn">
+              <div className="p-2.5 border-b border-slate-800 text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center justify-between">
+                <span>Matching Hardware &amp; Systems</span>
+                <span className="text-[10px] text-cyan-400 font-mono">Instant Results</span>
               </div>
-              <div className="max-h-80 overflow-y-auto divide-y divide-graphite-800">
+              <div className="max-h-80 overflow-y-auto divide-y divide-slate-800/80">
                 {searchResults.map((item) => (
                   <Link
                     key={item.id}
@@ -174,9 +177,9 @@ export const Navbar = () => {
                         : `/products/${item.slug}`
                     }
                     onClick={() => setSearchOpen(false)}
-                    className="flex items-center gap-3 p-3 hover:bg-graphite-800 transition-colors group"
+                    className="flex items-center gap-3 p-3 hover:bg-slate-800/80 transition-colors group"
                   >
-                    <div className="w-10 h-10 rounded bg-graphite-800 p-1 shrink-0 overflow-hidden border border-graphite-700">
+                    <div className="w-10 h-10 rounded-lg bg-slate-950 p-1 shrink-0 overflow-hidden border border-slate-700/70">
                       <img
                         src={item.image}
                         alt={item.name}
@@ -184,24 +187,24 @@ export const Navbar = () => {
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="text-xs font-semibold text-white group-hover:text-cyan truncate">
+                      <div className="text-xs font-semibold text-white group-hover:text-cyan-400 truncate">
                         {item.name}
                       </div>
                       <div className="text-[11px] text-slate-400">
                         {item.itemKind === "build" ? "Prebuilt PC" : item.brand}
                       </div>
                     </div>
-                    <div className="text-xs font-bold text-cyan shrink-0">
+                    <div className="text-xs font-bold text-cyan-400 shrink-0 font-mono">
                       {formatPKR(item.salePrice ?? item.price)}
                     </div>
                   </Link>
                 ))}
               </div>
-              <div className="p-2 bg-graphite-950 text-center">
+              <div className="p-2.5 bg-slate-950 text-center border-t border-slate-800/80">
                 <button
                   type="button"
                   onClick={handleSearchSubmit}
-                  className="text-xs text-cyan hover:underline font-medium inline-flex items-center gap-1"
+                  className="text-xs text-cyan-400 hover:underline font-semibold inline-flex items-center gap-1"
                 >
                   View all results for &quot;{searchQuery}&quot;{" "}
                   <ArrowRight className="w-3 h-3" />
@@ -215,48 +218,48 @@ export const Navbar = () => {
         <nav className="hidden xl:flex items-center gap-6 text-sm font-semibold text-slate-300">
           <Link
             href="/builds"
-            className="hover:text-cyan transition-colors flex items-center gap-1.5"
+            className="hover:text-cyan-400 transition-colors flex items-center gap-1.5"
           >
             Gaming PCs
-            <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-cyan/10 text-cyan border border-cyan/30">
+            <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
               Tested
             </span>
           </Link>
           <Link
             href="/pc-builder"
-            className="hover:text-cyan transition-colors flex items-center gap-1.5 text-white bg-graphite-800/80 px-3 py-1.5 rounded-lg border border-graphite-700 hover:border-cyan/40"
+            className="btn-shimmer hover:text-white transition-all flex items-center gap-1.5 text-white bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 px-3.5 py-1.5 rounded-xl font-bold shadow-cyanHover"
           >
-            <Wrench className="w-3.5 h-3.5 text-cyan" />
+            <Wrench className="w-3.5 h-3.5" />
             PC Builder
           </Link>
           <Link
             href="/category/graphics-cards"
-            className="hover:text-cyan transition-colors"
+            className="hover:text-cyan-400 transition-colors"
           >
             Components
           </Link>
-          <Link href="/guides" className="hover:text-cyan transition-colors">
+          <Link href="/guides" className="hover:text-cyan-400 transition-colors">
             Buying Guides
           </Link>
-          <Link href="/track" className="hover:text-cyan transition-colors">
+          <Link href="/track" className="hover:text-cyan-400 transition-colors">
             Track Order
           </Link>
-          <Link href="/about" className="hover:text-cyan transition-colors">
-            About
+          <Link href="/about" className="hover:text-cyan-400 transition-colors">
+            About Us
           </Link>
         </nav>
 
         {/* User Actions */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           {/* Compare Link */}
           <Link
             href="/compare"
             title="Compare Products"
-            className="relative p-2 rounded-xl bg-graphite-900 border border-graphite-800 text-slate-300 hover:text-white hover:border-graphite-700 transition-colors hidden sm:flex items-center justify-center"
+            className="relative p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 transition-all hidden sm:flex items-center justify-center hover:scale-105"
           >
-            <Scale className="w-5 h-5" />
+            <Scale className="w-4 h-4" />
             {compareList.length > 0 && (
-              <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-cyan text-graphite-950 font-bold text-[10px] flex items-center justify-center shadow">
+              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-cyan-400 text-obsidian-950 font-black text-[9px] flex items-center justify-center shadow">
                 {compareList.length}
               </span>
             )}
@@ -266,11 +269,11 @@ export const Navbar = () => {
           <Link
             href="/wishlist"
             title="Wishlist"
-            className="relative p-2 rounded-xl bg-graphite-900 border border-graphite-800 text-slate-300 hover:text-white hover:border-graphite-700 transition-colors hidden sm:flex items-center justify-center"
+            className="relative p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 transition-all hidden sm:flex items-center justify-center hover:scale-105"
           >
-            <Heart className="w-5 h-5" />
+            <Heart className="w-4 h-4" />
             {wishlist.length > 0 && (
-              <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-coral text-white font-bold text-[10px] flex items-center justify-center shadow">
+              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-coral text-white font-black text-[9px] flex items-center justify-center shadow">
                 {wishlist.length}
               </span>
             )}
@@ -279,17 +282,17 @@ export const Navbar = () => {
           {/* Cart Button */}
           <Link
             href="/cart"
-            className="flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-cyan hover:bg-cyan-400 text-graphite-950 font-bold text-sm shadow-cyanHover transition-all group"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-500 hover:from-cyan-300 hover:to-cyan-400 text-obsidian-950 font-black text-sm shadow-cyanHover transition-all group hover:scale-[1.02]"
           >
             <div className="relative">
-              <ShoppingCart className="w-4 h-4 text-graphite-950" />
+              <ShoppingCart className="w-4 h-4 text-obsidian-950" />
               {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 w-4 h-4 rounded-full bg-graphite-950 text-cyan text-[10px] font-black flex items-center justify-center">
+                <span className="absolute -top-2.5 -right-2.5 w-4 h-4 rounded-full bg-obsidian-950 text-cyan-400 text-[10px] font-black flex items-center justify-center border border-cyan-400/40">
                   {cartCount}
                 </span>
               )}
             </div>
-            <span className="hidden md:inline font-mono font-extrabold">
+            <span className="hidden md:inline font-mono font-black">
               {formatPKR(cartTotal)}
             </span>
           </Link>
@@ -298,7 +301,7 @@ export const Navbar = () => {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="xl:hidden p-2 rounded-xl bg-graphite-900 border border-graphite-800 text-slate-300 hover:text-white"
+            className="xl:hidden p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white"
             aria-label="Toggle navigation menu"
           >
             {mobileMenuOpen ? (
@@ -311,32 +314,34 @@ export const Navbar = () => {
       </div>
 
       {/* Secondary Categories Strip */}
-      <div className="hidden md:block bg-graphite-900/90 border-t border-graphite-800/80 px-4 sm:px-8 py-2 overflow-x-auto scrollbar-none">
-        <div className="max-w-7xl mx-auto flex items-center gap-1 text-xs font-semibold text-slate-400 whitespace-nowrap">
-          <span className="text-slate-500 uppercase tracking-wider text-[10px] pr-2 font-bold">
-            Categories:
+      <div className="hidden md:block bg-obsidian-900/80 border-t border-slate-800/60 px-4 sm:px-8 py-2 overflow-x-auto scrollbar-none">
+        <div className="max-w-7xl mx-auto flex items-center gap-1.5 text-xs font-semibold text-slate-400 whitespace-nowrap">
+          <span className="text-slate-500 uppercase tracking-wider text-[10px] pr-2 font-bold flex items-center gap-1">
+            <Flame className="w-3 h-3 text-amber-400" />
+            Quick Categories:
           </span>
           {categories.map((cat) => (
             <Link
               key={cat.id}
               href={`/category/${cat.slug}`}
-              className="px-2.5 py-1 rounded-md hover:bg-graphite-800 hover:text-cyan transition-colors"
+              className="px-2.5 py-1 rounded-lg hover:bg-slate-800 hover:text-cyan-400 transition-colors"
             >
               {cat.name.split(" ")[0]}
             </Link>
           ))}
           <Link
             href="/quote"
-            className="ml-auto text-cyan hover:underline font-bold text-xs flex items-center gap-1"
+            className="ml-auto text-cyan-400 hover:underline font-bold text-xs flex items-center gap-1"
           >
-            Get a Build Quote <ArrowRight className="w-3 h-3" />
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+            Get Custom Quote <ArrowRight className="w-3 h-3" />
           </Link>
         </div>
       </div>
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="xl:hidden bg-graphite-950 border-b border-graphite-800 px-6 py-6 space-y-4 animate-slideDown">
+        <div className="xl:hidden bg-obsidian-950 border-b border-slate-800 px-6 py-6 space-y-4 animate-slideDown">
           {/* Mobile Search */}
           <form onSubmit={handleSearchSubmit} className="relative">
             <input
@@ -344,95 +349,86 @@ export const Navbar = () => {
               placeholder="Search gaming PCs, graphics cards..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-graphite-900 border border-graphite-700 rounded-xl py-2 pl-10 pr-4 text-sm text-white placeholder-slate-400 focus:border-cyan"
+              className="w-full bg-slate-900 border border-slate-700 rounded-xl py-2 pl-10 pr-4 text-sm text-white placeholder-slate-400 focus:border-cyan-400"
             />
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
           </form>
 
-          <nav className="flex flex-col space-y-3 font-semibold text-base text-slate-200">
+          <div className="grid grid-cols-2 gap-2 pt-2">
             <Link
               href="/builds"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-between py-2 border-b border-graphite-850"
+              className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-sm font-bold text-white hover:text-cyan-400 text-center"
             >
-              <span>Featured Gaming PCs</span>
-              <span className="text-xs px-2 py-0.5 rounded bg-cyan/10 text-cyan">
-                Prebuilts
-              </span>
+              Gaming PCs
             </Link>
             <Link
               href="/pc-builder"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-between py-2 border-b border-graphite-850 text-cyan"
+              className="p-3 rounded-xl bg-cyan-500 text-obsidian-950 text-sm font-black text-center"
             >
-              <span className="flex items-center gap-2">
-                <Wrench className="w-4 h-4" /> Custom PC Builder
-              </span>
-              <ArrowRight className="w-4 h-4" />
+              Custom PC Builder
             </Link>
+          </div>
+
+          <div className="border-t border-slate-800 pt-3 space-y-2 text-sm font-medium text-slate-300">
             <Link
               href="/category/graphics-cards"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-2 border-b border-graphite-850"
+              className="block py-1 hover:text-cyan-400"
             >
-              All Components &amp; Hardware
+              Graphics Cards (GPUs)
             </Link>
             <Link
-              href="/compare"
+              href="/category/processors"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-between py-2 border-b border-graphite-850"
+              className="block py-1 hover:text-cyan-400"
             >
-              <span>Compare Hardware</span>
-              <span className="text-xs px-2 py-0.5 rounded bg-graphite-800 text-slate-300">
-                {compareList.length} items
-              </span>
-            </Link>
-            <Link
-              href="/wishlist"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-between py-2 border-b border-graphite-850"
-            >
-              <span>My Wishlist</span>
-              <span className="text-xs px-2 py-0.5 rounded bg-coral/20 text-coral">
-                {wishlist.length} saved
-              </span>
+              Processors (CPUs)
             </Link>
             <Link
               href="/guides"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-2 border-b border-graphite-850"
+              className="block py-1 hover:text-cyan-400"
             >
               PC Buying Guides
             </Link>
             <Link
+              href="/compare"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-1 hover:text-cyan-400"
+            >
+              Compare Products ({compareList.length})
+            </Link>
+            <Link
+              href="/wishlist"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-1 hover:text-cyan-400"
+            >
+              My Wishlist ({wishlist.length})
+            </Link>
+            <Link
               href="/track"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-2 border-b border-graphite-850"
+              className="block py-1 hover:text-cyan-400"
             >
               Track Your Order
             </Link>
             <Link
+              href="/quote"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-1 hover:text-cyan-400"
+            >
+              Request a Custom Quote
+            </Link>
+            <Link
               href="/about"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-2 border-b border-graphite-850"
+              className="block py-1 hover:text-cyan-400"
             >
               About ZS Gaming Store
             </Link>
-            <Link
-              href="/contact"
-              onClick={() => setMobileMenuOpen(false)}
-              className="py-2 border-b border-graphite-850"
-            >
-              Contact Us &amp; Stores
-            </Link>
-            <Link
-              href="/admin"
-              onClick={() => setMobileMenuOpen(false)}
-              className="py-2 text-cyan font-bold"
-            >
-              Admin Dashboard
-            </Link>
-          </nav>
+          </div>
         </div>
       )}
     </header>

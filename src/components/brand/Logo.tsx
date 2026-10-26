@@ -30,7 +30,7 @@ export const Logo: React.FC<LogoProps> = ({
     <div className={`flex items-center gap-3 select-none ${className}`}>
       {/* Monogram Glyph */}
       <div
-        className={`relative ${iconSizes[size]} rounded-xl bg-gradient-to-br from-graphite-800 to-graphite-950 border border-graphite-700/80 p-1.5 flex items-center justify-center shadow-md group-hover:border-cyan/50 transition-colors shrink-0`}
+        className={`relative ${iconSizes[size]} rounded-xl bg-gradient-to-br from-obsidian-850 to-obsidian-950 border border-slate-700/70 p-1.5 flex items-center justify-center shadow-md group-hover:border-cyan-400/60 transition-colors shrink-0`}
       >
         <svg
           viewBox="0 0 48 48"
@@ -40,8 +40,8 @@ export const Logo: React.FC<LogoProps> = ({
         >
           <defs>
             <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#00E5FF" />
-              <stop offset="100%" stopColor="#00F5D4" />
+              <stop offset="0%" stopColor="#06B6D4" />
+              <stop offset="100%" stopColor="#10B981" />
             </linearGradient>
           </defs>
           {/* Angular Z */}
@@ -60,7 +60,7 @@ export const Logo: React.FC<LogoProps> = ({
             strokeLinecap="round"
             strokeLinejoin="round"
           />
-          <circle cx="37" cy="13" r="2.5" fill="#00E5FF" />
+          <circle cx="37" cy="13" r="2.5" fill="#06B6D4" />
         </svg>
       </div>
 
@@ -70,9 +70,9 @@ export const Logo: React.FC<LogoProps> = ({
             <span
               className={`font-black tracking-wider text-white ${textSizes[size]}`}
             >
-              ZS<span className="text-cyan">.</span>GAMING
+              ZS<span className="text-cyan-400">.</span>GAMING
             </span>
-            <span className="px-1.5 py-0.5 text-[9px] font-bold rounded bg-cyan/10 border border-cyan/30 text-cyan tracking-wider">
+            <span className="px-1.5 py-0.5 text-[9px] font-bold rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 tracking-wider">
               PK
             </span>
           </div>

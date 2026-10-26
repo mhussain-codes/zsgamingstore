@@ -15,7 +15,9 @@ export interface ProductCompatibility {
   ramType?: "DDR4" | "DDR5";
   ramSlots?: number;
   formFactor?: "ATX" | "Micro-ATX" | "Mini-ITX";
+  supportedFormFactors?: ("ATX" | "Micro-ATX" | "Mini-ITX")[];
   tdpWatts?: number;
+  wattage?: number;
   recommendedPsuWatts?: number;
   gpuLengthMm?: number;
   maxGpuLengthMm?: number;
@@ -58,12 +60,14 @@ export interface PCBuild {
   tier: "budget" | "mid-range" | "enthusiast" | "extreme";
   price: number;
   salePrice?: number;
-  badge?: "Popular" | "Value Pick" | "Editor's Choice" | "Ultimate Flagship";
   shortDescription: string;
   description: string;
   image: string;
   gallery?: string[];
   inStock: boolean;
+  stockCount?: number;
+  badge?: "Bestseller" | "Hot Deal" | "Staff Pick" | "Flagship" | "Popular" | "Value Pick" | "Editor's Choice" | "Ultimate Flagship";
+  fpsBenchmarks: FpsBenchmark[];
   specs: {
     cpu: string;
     gpu: string;
@@ -74,39 +78,42 @@ export interface PCBuild {
     psu: string;
     case: string;
   };
-  fpsBenchmarks: FpsBenchmark[];
-  includedComponentIds: string[];
+  components?: {
+    cpu?: Product;
+    gpu?: Product;
+    motherboard?: Product;
+    ram?: Product;
+    storage?: Product;
+    cooler?: Product;
+    psu?: Product;
+    case?: Product;
+  };
+  includedComponentIds?: string[];
   warrantyYears: number;
+  estimatedBuildTimeHours?: number;
   seoTitle?: string;
   seoDescription?: string;
 }
 
 export interface CategoryInfo {
-  id: ProductCategory;
+  id: string;
   name: string;
   slug: string;
   description: string;
-  iconName: string;
+  image?: string;
+  iconName?: string;
   featuredBadge?: string;
+  featuredBrands?: string[];
 }
 
+export type CategoryItem = CategoryInfo;
+
 export interface CartItem {
-  id: string; // unique item id in cart
-  itemType: "product" | "prebuilt" | "custom_build";
+  id: string;
   product: Product | PCBuild;
   quantity: number;
-  customBuildParts?: {
-    cpu?: Product;
-    motherboard?: Product;
-    ram?: Product;
-    gpu?: Product;
-    storage?: Product;
-    cooler?: Product;
-    psu?: Product;
-    case?: Product;
-    monitor?: Product;
-    peripherals?: Product;
-  };
+  itemType: "product" | "prebuilt" | "custom_build";
+  customBuildParts?: Record<string, Product | undefined>;
 }
 
 export interface Order {
@@ -119,53 +126,58 @@ export interface Order {
     address: string;
     city: string;
     province: string;
-    postalCode: string;
+    postalCode?: string;
     orderNotes?: string;
   };
   items: CartItem[];
   subtotal: number;
   shipping: number;
   total: number;
-  paymentMethod: "cod" | "bank_transfer" | "easypaisa_jazzcash" | "card_demo";
-  shippingMethod: "standard_tcs" | "same_day_express";
-  status: "Order Confirmed" | "Component Testing" | "Cable Management & Assembly" | "Stress Tested & Benchmarked" | "Dispatched via TCS" | "Delivered";
+  status: "Order Confirmed" | "Received" | "Assembling" | "Stress-Testing" | "Dispatched" | "Delivered" | "Component Testing" | "Cable Management & Assembly" | "Stress Tested & Benchmarked" | "Dispatched via TCS";
   trackingNumber: string;
-}
-
-export interface FAQItem {
-  id: string;
-  category: "Orders & Shipping" | "PC Builds & Testing" | "Warranty & Returns" | "Payments";
-  question: string;
-  answer: string;
-}
-
-export interface BuyingGuide {
-  id: string;
-  slug: string;
-  title: string;
-  excerpt: string;
-  category: string;
-  date: string;
-  readTime: string;
-  author: string;
-  image: string;
-  content: string;
-  tags: string[];
+  paymentMethod: "bank_transfer" | "cod" | "easypaisa_jazzcash" | "card_demo";
+  shippingMethod?: "standard_tcs" | "same_day_express";
+  orderNotes?: string;
 }
 
 export interface StoreSettings {
   storeName: string;
   tagline: string;
+  currency: string;
+  announcementBar: string;
   phone: string;
   whatsapp: string;
   email: string;
   addressLahore: string;
   addressKarachi: string;
   businessHours: string;
-  announcementBar: string;
-  currency: string;
-  geminiConfigured: boolean;
-  demoModeNotice: boolean;
+  demoAdminKey?: string;
+  geminiConfigured?: boolean;
+  demoModeNotice?: boolean;
+}
+
+export interface FAQ {
+  id: string;
+  question: string;
+  answer: string;
+  category: string;
+}
+
+export type FAQItem = FAQ;
+
+export interface BuyingGuide {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  category: string;
+  readTime: string;
+  publishedDate?: string;
+  date?: string;
+  author: string;
+  image: string;
+  tags?: string[];
 }
 
 export interface ChatMessage {
@@ -174,5 +186,5 @@ export interface ChatMessage {
   content: string;
   timestamp: string;
   sources?: string[];
-  suggestedActions?: { label: string; href?: string; query?: string }[];
+  suggestedActions?: { label: string; query?: string; href?: string }[];
 }
